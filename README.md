@@ -10,5 +10,5 @@ Event Pulse Project for CSC4350 - Software Engineering
 
 **Done:**
 - Use Case Descriptions | Assigned to <ins>Terry Andi Marala</ins> and <ins>Christy Lam</ins>
-- Alignment of Document | Assigned to Charan Peeriga
-- Use Case Diagrams | Assigned to Lauren Warren
+- Alignment of Document | Assigned to <ins>Charan Peeriga</ins>
+- Use Case Diagrams | Assigned to <ins>Lauren Warren</ins>
