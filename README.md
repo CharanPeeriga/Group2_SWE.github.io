@@ -2,13 +2,31 @@
 ## Group 2
 Event Pulse Project for CSC4350 - Software Engineering
 
-### Project Progress
-**In Progress:**
-- Database Tables | Assinged to <ins>Charan Peeriga</ins>
-- Requirements | Assigned to <ins>Bailey Reese</ins>
-- Fixing Activity and Context Diagram | Assigned to <ins>Daisy Holt</ins>
+## Current Sprint: 2
+### Tasks:
+- Update Sprint 1 based on TA feedback
+    * Update Activity and Context Diagram
+    * Update Alignment
+    * Update Problem Statement
+- Use Case Descriptions
+- Use Case Diagrams
+- Requirements
+- Database Tables
+- Github Initialization
 
-**Done:**
-- Use Case Descriptions | Assigned to <ins>Terry Andi Marala</ins> and <ins>Christy Lam</ins>
-- Alignment of Document | Assigned to <ins>Charan Peeriga</ins>
-- Use Case Diagrams | Assigned to <ins>Lauren Warren</ins>
+## Project Progress
+### **In Progress:**
+Task | Assigned Member
+------------ | ------------
+Database Tables | <ins>Charan Peeriga</ins>
+Revise Documents | <ins>Charan Peeriga</ins>
+
+
+### **Completed:**
+Task | Assigned Member
+---------------- | ----------------
+Use Case Descriptions | <ins>Terry Andi Marala</ins> and <ins>Christy Lam</ins>
+Alignment | <ins>Charan Peeriga</ins>
+Use Case Diagrams | <ins>Lauren Warren</ins>
+Requirements | <ins>Bailey Reese</ins>
+Update Document from feedback | <ins>Daisy Holt</ins>
