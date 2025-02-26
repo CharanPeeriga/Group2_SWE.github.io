@@ -2,7 +2,7 @@
 ## Group 2
 Event Pulse Project for CSC4350 - Software Engineering
 
-## Current Sprint: 2
+## Current Sprint: 2 (Status: Finished)
 ### Tasks:
 - Update Sprint 1 based on TA feedback
     * Update Activity and Context Diagram
@@ -18,8 +18,7 @@ Event Pulse Project for CSC4350 - Software Engineering
 ### **In Progress:**
 Task | Assigned Member
 ------------ | ------------
-Database Tables | <ins>Charan Peeriga</ins>
-Revise Documents | <ins>Charan Peeriga</ins>
+
 
 
 ### **Completed:**
@@ -30,3 +29,5 @@ Alignment | <ins>Charan Peeriga</ins>
 Use Case Diagrams | <ins>Lauren Warren</ins>
 Requirements | <ins>Bailey Reese</ins>
 Update Document from feedback | <ins>Daisy Holt</ins>
+Database Tables | <ins>Charan Peeriga</ins>
+Revise Documents | <ins>Charan Peeriga</ins>
