@@ -1,7 +1,7 @@
 # Event Pulse
 ## Group 2
-## Event Pulse Project for CSC4350 - Software Engineering
-## Members:
+### Event Pulse Project for CSC4350 - Software Engineering
+### Members:
 Back-end:
 - Terry Andi Marala
 - Bailey Reese
