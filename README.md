@@ -1,6 +1,7 @@
 # Event Pulse
 ## Group 2
 ### Event Pulse Project for CSC4350 - Software Engineering
+#### Web App: https://event-pulse-8d1a8.web.app
 ### Members:
 Back-end:
 - Terry Andi Marala
@@ -11,9 +12,7 @@ Front-end:
 - Daisy Holt
 - Lauren Warren
 - Christy Lam
-## Current Sprint: 3 (Status: In Progress)
-[Problem Statement] (#Problem-Statement)
-
+## Current Sprint: 3 (Status: In Progress - Demo)
 Part | Due Date
 --------|-----------
 Presentation | March 12th, 2025
