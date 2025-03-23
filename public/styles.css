@@ -41,6 +41,14 @@ nav ul li button:hover
     background-color: #cc0f0f;
 }
 
+#events-list {
+    margin-top: 20px;
+}
+
+#events-list li {
+    margin: 10px 0;
+}
+
 main 
 {
     padding: 80px;
