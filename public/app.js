@@ -1,87 +1,75 @@
-const firebaseConfig =
-{
-    apiKey: "AIzaSyCMWv6HtYj9UfkTZIf5ry9xfXnTPL20WMA",
-    authDomain: "event-pulse-8d1a8.firebaseapp.com",
-    databaseURL: "https://event-pulse-8d1a8-default-rtdb.firebaseio.com",
-    projectId: "event-pulse-8d1a8",
-    storageBucket: "event-pulse-8d1a8.firebasestorage.app",
-    messagingSenderId: "956330318068",
-    appId: "1:956330318068:web:17a10f1584bd229e48a6a1"
-  };
-
-// Initialize Firebase
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore(); // Firestore instance
-
-//Add an event to Firestore
-function addEvent(title, description, date, location) 
-{
-    db.collection("events").add({
-        title: title,
-        description: description,
-        date: date,
-        location: location
-    })
-    .then((docRef) => {
-        console.log("Event added with ID: ", docRef.id);
-    })
-    .catch((error) => {
-        console.error("Error adding event: ", error);
-    });
-}
-
-// Add event
-addEvent("Music Festival", "Enjoy your favorite arists, ONE NIGHT ONLY!", "April 19, 2025", "Piedmont Park");
-addEvent("Mindfulness Conference", "Take a break from the strenuous day-to-day and join us for an exploration in rest and relaxation!", "March 31, 2025", "Cobb Galleria Centre");
-
-//load events
-document.addEventListener('DOMContentLoaded', function () 
-{
-    const eventsList = document.getElementById('events-list');
-
-    db.collection("events").get().then((querySnapshot) => 
-        {
-        querySnapshot.forEach((doc) => 
-            {
-            const event = doc.data();
-            const eventItem = document.createElement('li');
-            eventItem.innerHTML = `<a href="event-info.html?event=${doc.id}"><button>${event.title}</button></a>`;
-            eventsList.appendChild(eventItem);
-        });
-    }).catch((error) => 
-        {
-        console.error("Error fetching events: ", error);
-    });
-});
-
-//show event details
 document.addEventListener('DOMContentLoaded', function () 
 {
     const eventQuery = new URLSearchParams(window.location.search).get('event');
-    
-    if (eventQuery) {
-        const eventRef = db.collection('events').doc(eventQuery);
-        
-        eventRef.get().then((doc) => 
-            {
-            if (doc.exists) {
-                const event = doc.data();
-                document.getElementById('eventTitle').textContent = event.title;
-                document.getElementById('eventDescription').textContent = "Description: " + event.description;
-                document.getElementById('eventDate').textContent = "Date: " + event.date;
-                document.getElementById('eventLocation').textContent = "Location: " + event.location;
-            } else {
-                console.log("Event not found!");
-            }
-        }).catch((error) => 
-            {
-            console.error("Error fetching event: ", error);
-        });
 
+    if (eventQuery) 
+        {
+        const eventID = document.getElementById('eventID');
+        const event_description = document.getElementById('event_description');
+        const event_date = document.getElementById('event_date');
+        const event_time = document.getElementById('event_time');
+        const event_location = document.getElementById('event_location');
+
+        switch (eventQuery) 
+        {
+            case '1':
+                eventID.textContent = "Mindfulness Conference";
+                event_description.textContent = "Take a break from the strenuous day-to-day and join us for an exploration in rest and relaxation!";
+                event_date.textContent = "On: March 31, 2025";
+                event_time.textContent = "From: 10:00am - 12:00pm"
+                event_location.textContent = "At: Cobb Galleria Centre";
+                break;
+            case '2':
+                eventID.textContent = "Music Festival";
+                event_description.textContent = "Come see your favorite artists for ONE NIGHT ONLY!";
+                event_date.textContent = "On: April 19, 2025";
+                event_time.textContent = "From: 2:00pm - 5:00pm"
+                event_location.textContent = "At: Piedmont Park";
+                break;
+            case '3':
+                eventID.textContent = "Museum Tour";
+                event_description.textContent = "Experience our newest exhibit on prehistoric culture";
+                event_date.textContent = "On: May 23, 2025";
+                event_time.textContent = "From: 11:00am - 2:00pm"
+                event_location.textContent = "At: High Museum";
+                break;
+            default:
+                eventID.textContent = "Event Not Found";
+                event_description.textContent = "Sorry, this event does not exist.";
+                break;
+        }
+
+        // Book Event Button
         const bookEventBtn = document.getElementById('bookEventBtn');
         bookEventBtn.addEventListener('click', function () 
         {
-            alert("Event booked successfully!");
+            // Save the booking to Firebase
+            const userEvent = 
+            {
+                eventID: eventQuery,
+                eventName: eventID.textContent,
+                eventDescription: event_description.textContent,
+                eventDate: event_date.textContent,
+                eventTime: event_time.textContent,
+                eventLocation: event_location.textContent,
+                bookingDate: new Date().toISOString()
+            };
+
+            //Add the booking to Firebase Firestore under the 'bookings' collection
+            const db = firebase.firestore();
+            db.collection('bookings').add(userEvent)
+                .then(() => 
+                    {
+                    alert("Congrats on your booking!");
+
+                    // Redirect to user portal after booking
+                    window.location.href = 'userportal.html';
+                })
+                .catch(error => 
+                    {
+                    console.error("Error booking the event:", error);
+                    alert("There was an error with your booking. Please try again.");
+                });
         });
     }
 });
