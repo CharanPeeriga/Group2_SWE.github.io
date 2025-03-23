@@ -1,15 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Portal</title>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
+</head>
+<body>
+    <h1>Booked Events</h1>
+    <div id="eventsList"></div>
 
-        <h1>Event Portal</h1>
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCMWv6HtYj9UfkTZIf5ry9xfXnTPL20WMA",
+            authDomain: "event-pulse-8d1a8.firebaseapp.com",
+            databaseURL: "https://event-pulse-8d1a8-default-rtdb.firebaseio.com",
+            projectId: "event-pulse-8d1a8",
+            storageBucket: "event-pulse-8d1a8.firebasestorage.app",
+            messagingSenderId: "956330318068",
+            appId: "1:956330318068:web:17a10f1584bd229e48a6a1"
+          };
+          
 
-        <!-- Buttons for login, registration, event-portal, and FAQ page-->
-        <div class="button-container">
-            <a href="index.html" class="button">Home Page</a>
-            <a href="eventDatabase.html" class="button">Event list</a>
-            <a href="createEvent.html" class="button">Event Creation</a>
-            <a href="eventReport.html" class="button">Event Report</a>
-        </div>
-    </body>
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = firebase.firestore(app);
+
+        // Fetch user's booked events from Firestore
+        db.collection('bookings').get()
+            .then((querySnapshot) => {
+                const eventsList = document.getElementById('eventsList');
+                querySnapshot.forEach((doc) => {
+                    const event = doc.data();
+                    const eventElement = document.createElement('div');
+                    eventElement.classList.add('event');
+                    eventElement.innerHTML = `
+                        <h2>${event.eventName}</h2>
+                        <p>${event.eventDescription}</p>
+                        <p>${event.eventDate}</p>
+                        <p>${event.eventTime}</p>
+                        <p>${event.eventLocation}</p>
+                    `;
+                    eventsList.appendChild(eventElement);
+                });
+            })
+            .catch((error) => {
+                console.error("Error fetching events: ", error);
+            });
+    </script>
+</body>
 </html>
