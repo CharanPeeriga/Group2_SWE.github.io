@@ -18,23 +18,29 @@
                     <label for="userEmail">User Email:</label>
                     <input type="email" id="userEmail" required>
 
+                    <label for="userPassword">Password:</label>
+                    <input type="password" id="userPassword" required>
+
                     <label for="phoneNumber">Phone Number:</label>
                     <input type="tel" id="phoneNumber" required>
 
                     <button type="submit">Submit</button>
-                    <div class="button-container">
-                        <a href="index.html" class="button">Home Page</a>
-                        <a href="login.html" class="button">Login</a>
-                        <a href="event-portal.html" class="button">Event Portal</a>
-                        <a href="faq.html" class="button">FAQ</a>
-                        <a href="index.html" class="button">Home Page</a>
-                    </div>
                 </form>
+                <div class="button-container">
+                    <a href="index.html" class="button">Home Page</a>
+                    <a href="loginregister.html" class="button">Login</a>
+                    <a href="event-portal.html" class="button">Event Portal</a>
+                    <a href="faq.html" class="button">FAQ</a>
+                    <a href="index.html" class="button">Home Page</a>
+                </div>
                 <span id="closeModal" style="cursor:pointer;">&times;</span>
             </div>
         </div>
 
-        <!--Javascript linkage-->
-        <script> src="registrationscript.js"</script>
+        <!--Javascript and Firebase linkage-->
+        <script type="module" src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js"></script>
+        <script type="module" src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
+        <script type="module" src="registrationscript.js"></script>
     </body>
 </html>
