@@ -1,4 +1,4 @@
-const firebaseConfig = 
+const firebaseConfig =
 {
     apiKey: "AIzaSyCMWv6HtYj9UfkTZIf5ry9xfXnTPL20WMA",
     authDomain: "event-pulse-8d1a8.firebaseapp.com",
