@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <!-- Modal for Login -->
+        <div id="loginModal" class="modal">
+            <div class="button-container"> <!--fix later-->
+                <a href="#" id="loginBtn" class="button" style="display:none;">Login</a>
+            </div>
+
+            <div class="modal-content">
+                <h3>Login</h3>
+
+                <form id="loginForm">
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" required>
+
+                    <label for="password">Password: </label>
+                    <input type="password" id="password" required>
+
+                    <button type="submit">Login</button>
+
+        <!-- Buttons for login, registration, event-portal, and FAQ page-->
+        <div class="button-container">
+            <a href="register.html" class="button">Register</a>
+            <a href="event-portal.html" class="button">Event Portal</a>
+            <a href="faq.html" class="button">FAQ</a>
+
+        </div>
+                </form>
+                <span id="closeModal" style="cursor:pointer;">&times;</span>
+            </div>
+        </div>
+
+        <!--Javascript linkage-->
+        <script src="loginscript.js"></script>
+    </body>
+</html>
