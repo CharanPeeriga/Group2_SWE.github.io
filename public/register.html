@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <body>
+        <!--Modal for Registration-->
+        <div id="regModal" class="modal">
+            <div class="modal-content">
+                <h3>Registration</h3>
+                <form id="registrationForm">
+                    <label for="firstName">Legal First Name:</label>
+                    <input type="text" id="firstName" required>
+
+                    <label for="lastName">Legal Last Name:</label>
+                    <input type="text" id="lastName" required>
+
+                    <label for="DOB">Date of Birth:</label>
+                    <input type="date" id="DOB" required>
+
+                    <label for="userEmail">User Email:</label>
+                    <input type="email" id="userEmail" required>
+
+                    <label for="phoneNumber">Phone Number:</label>
+                    <input type="tel" id="phoneNumber" required>
+
+                    <button type="submit">Submit</button>
+                    <div class="button-container">
+                        <a href="index.html" class="button">Home Page</a>
+                        <a href="login.html" class="button">Login</a>
+                        <a href="event-portal.html" class="button">Event Portal</a>
+                        <a href="faq.html" class="button">FAQ</a>
+                        <a href="index.html" class="button">Home Page</a>
+                    </div>
+                </form>
+                <span id="closeModal" style="cursor:pointer;">&times;</span>
+            </div>
+        </div>
+
+        <!--Javascript linkage-->
+        <script> src="registrationscript.js"</script>
+    </body>
+</html>
