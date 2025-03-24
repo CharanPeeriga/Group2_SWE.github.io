@@ -3,32 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event Information</title>
+    <title>Event Info</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Event Information</h1>
-        <nav>
-            <ul>
-                <li><a href="eventdatabase.html"><button>Back to Event Database</button></a></li>
-            </ul>
-        </nav>
-    </header>
+    <h1>Event Information</h1>
+    <div id="eventDetails">
+        <h2 id="eventID"></h2>
+        <p id="event_description"></p>
+        <p id="event_date"></p>
+        <p id="event_time"></p>
+        <p id="event_location"></p>
+    </div>
 
-    <main>
-        <section id="event-details">
-            <h2 id="eventTitle">Event Title</h2>
-            <p id="eventDescription">Description:</p>
-            <p id="eventDate">Date:</p>
-            <p id="eventLocation">Location:</p>
-            <button id="bookEventBtn">Book Event</button>
-        </section>
-    </main>
-
-    <footer>
-        <p>&copy; Spring 2025 Group 2 Software Engineering</p>
-    </footer>
+    <button id="bookEventBtn">Book Event</button>
 
     <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
