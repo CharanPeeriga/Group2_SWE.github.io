@@ -81,3 +81,30 @@ footer
 {
     display: none;
 }
+
+.button {
+    padding: 10px 20px;
+    background-color: #901111;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button:hover {
+    background-color: red;
+}
+
+.popup-style {
+    background-color: white;
+    padding: 20px;
+    width: 50%;
+    margin: 50px auto;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.button-container {
+    margin-top: 20px;
+}

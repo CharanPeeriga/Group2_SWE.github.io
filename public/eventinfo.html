@@ -8,15 +8,21 @@
 </head>
 <body>
     <h1>Event Information</h1>
-    <div id="eventDetails">
-        <h2 id="eventID"></h2>
+    
+    <div class="popup-style">
+        <h2 id="eventID">Event Name</h2>
         <p id="event_description"></p>
         <p id="event_date"></p>
         <p id="event_time"></p>
         <p id="event_location"></p>
-    </div>
 
-    <button id="bookEventBtn">Book Event</button>
+        <div class="button-container">
+            <button id="bookEventBtn">Book Event</button>
+            <a href="eventdatabase.html">
+                <button class="return-button">Return to Events</button>
+            </a>
+        </div>
+    </div>
 
     <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
