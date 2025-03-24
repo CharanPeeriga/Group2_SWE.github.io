@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', function () 
+document.addEventListener('DOMContentLoaded', function() 
 {
     const eventQuery = new URLSearchParams(window.location.search).get('event');
 
@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function ()
         const event_date = document.getElementById('event_date');
         const event_time = document.getElementById('event_time');
         const event_location = document.getElementById('event_location');
-
+        
         switch (eventQuery) 
         {
             case '1':
@@ -39,37 +39,11 @@ document.addEventListener('DOMContentLoaded', function ()
                 break;
         }
 
-        // Book Event Button
         const bookEventBtn = document.getElementById('bookEventBtn');
-        bookEventBtn.addEventListener('click', function () 
+        bookEventBtn.addEventListener('click', function() 
         {
-            // Save the booking to Firebase
-            const userEvent = 
-            {
-                eventID: eventQuery,
-                eventName: eventID.textContent,
-                eventDescription: event_description.textContent,
-                eventDate: event_date.textContent,
-                eventTime: event_time.textContent,
-                eventLocation: event_location.textContent,
-                bookingDate: new Date().toISOString()
-            };
-
-            //Add the booking to Firebase Firestore under the 'bookings' collection
-            const db = firebase.firestore();
-            db.collection('bookings').add(userEvent)
-                .then(() => 
-                    {
-                    alert("Congrats on your booking!");
-
-                    // Redirect to user portal after booking
-                    window.location.href = 'userportal.html';
-                })
-                .catch(error => 
-                    {
-                    console.error("Error booking the event:", error);
-                    alert("There was an error with your booking. Please try again.");
-                });
+            alert("Congrats on your booking!");
         });
     }
+
 });
