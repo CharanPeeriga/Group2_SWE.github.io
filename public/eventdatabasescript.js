@@ -29,8 +29,29 @@ document.addEventListener('DOMContentLoaded', async () => {
             li.classList.add('event-item');
 
             // Format date/time properly
-            const startTime = event.start_time.toDate().toLocaleString();
-            const endTime = event.end_time.toDate().toLocaleString();
+            let startTime;
+            let endTime;
+            try{
+                startTime = event.start_time.toDate().toLocaleString();
+            } catch (error) {
+                startTime = event.start_time;
+            }
+            
+            
+            try{
+                endTime = event.end_time.toDate().toLocaleString();
+            } catch (error) {
+                endTime = event.end_time;
+            }
+
+            // handle if free
+            let price;
+            if(!event.price) {
+                price = 0;
+            } else {
+                price = event.price;
+            }
+            
 
             // Display event details
             li.innerHTML = `
@@ -38,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <p><strong>Category:</strong> ${event.event_category}</p>
                 <p><strong>Description:</strong> ${event.event_description}</p>
                 <p><strong>Location:</strong> ${event.location}</p>
-                <p><strong>Price:</strong> $${event.price.toFixed(2)}</p>
+                <p><strong>Price:</strong> $${price}</p>
                 <p><strong>Start:</strong> ${startTime}</p>
                 <p><strong>End:</strong> ${endTime}</p>
                 <p><strong>Attendees:</strong> ${event.current_attendees_count} / ${event.max_capacity}</p>
