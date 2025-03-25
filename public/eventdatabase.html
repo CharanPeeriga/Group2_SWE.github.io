@@ -7,33 +7,97 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Event Database</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html"><button>Back to Home</button></a></li>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <section id="events">
-            <h2>Bookable Events:</h2>
-            <ul>
-                <li><a href="eventdatabasescript.js"><button class="button">Mindfulness Conference</button></a></li>
-                <li><a href="eventdatabasescript.js"><button class="button">Music Festival</button></a></li>
-                <li><a href="eventdatabasescript.js"><button class="button">Museum Tour</button></a></li>
-            </ul>
-        </section>
-    </main>
+<header>
+    <h1>Upcoming Events</h1>
+</header>
 
-    <footer>
-        <p>&copy; Spring 2025 Group 2 Software Engineering</p>
-    </footer>
+<nav>
+    <ul>
+        <li><button onclick="window.location.href='index.html'">Return Home</button></li>
+    </ul>
+</nav>
 
-    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
-    <script type="module" src="eventdatabasescript.js"></script>
-    <script type="module" src="firebase-config.js"></script>
+<main>
+    <section id="contentSection">
+        <h2>Event Database</h2>
+        <div id="events">
+            <!-- Event buttons will be appended here -->
+        </div>
+    </section>
+</main>
+
+<footer>
+    <p>&copy; Spring 2025 Group 2 Software Engineering</p>
+</footer>
+
+<script type="module">
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+    import {firebaseConfig} from "./firebase-config.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    console.log("Firebase initialized");
+
+    document.addEventListener('DOMContentLoaded', async () => 
+    {
+        const eventsList = document.getElementById('events');
+
+        try 
+        {
+            console.log("Fetching events...");
+
+            const querySnapshot = await getDocs(collection(db, "events"));
+
+            if (querySnapshot.empty) 
+            {
+                eventsList.innerHTML = `<p>No events found.</p>`;
+                return;
+            }
+
+            querySnapshot.forEach(doc => 
+            {
+                const event = doc.data();
+
+                //button for each event
+                const button = document.createElement('button');
+                button.classList.add('event-button');
+
+                //date and time
+                let startTime;
+                try 
+                {
+                    startTime = event.start_time.toDate().toLocaleString();
+                } catch (error) 
+                {
+                    startTime = event.start_time;
+                }
+
+                button.innerHTML = `
+                    <h3>${event.event_name}</h3>
+                    <p><strong>Category:</strong> ${event.event_category}</p>
+                    <p><strong>Location:</strong> ${event.location}</p>
+                    <p><strong>Start:</strong> ${startTime}</p>
+                `;
+
+                //takes user to transaction page for payment
+                button.onclick = () => 
+                {
+                    const eventDetails = encodeURIComponent(JSON.stringify(event));
+                    window.location.href = `transaction.html?event=${eventDetails}`;
+                };
+
+                eventsList.appendChild(button);
+            });
+
+        } catch (error) 
+        {
+            console.error("Error fetching events:", error);
+            eventsList.innerHTML = `<p>Error loading events. Please try again later.</p>`;
+        }
+    });
+</script>
+
 </body>
 </html>
