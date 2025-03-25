@@ -4,51 +4,114 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Portal</title>
-    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <h1>Booked Events</h1>
-    <div id="eventsList"></div>
+    <header>
+        <h1><i class="fas fa-user-circle"></i> User Portal</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><button><i class="fas fa-home"></i> Home</button></a></li>
+                <li><a href="eventdatabase.html"><button><i class="fas fa-calendar-week"></i> Events</button></a></li>
+            </ul>
+        </nav>
+    </header>
 
+    <main>
+        <section id="contentSection">
+            <h2>Your Booked Events</h2>
+            <p>Here you can view and manage all the events you've booked.</p>
+        </section>
+        
+        <div id="eventsList">
+            <!-- Events will be loaded dynamically here -->
+            <div class="loading-indicator">
+                <i class="fas fa-spinner fa-spin fa-2x"></i>
+                <p>Loading your events...</p>
+            </div>
+        </div>
+        
+        <div class="button-container">
+            <a href="eventdatabase.html" class="button"><i class="fas fa-plus-circle"></i> Book More Events</a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; Spring 2025 Group 2 Software Engineering</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
     <script>
         // Firebase configuration
         const firebaseConfig = {
-            apiKey: "AIzaSyCMWv6HtYj9UfkTZIf5ry9xfXnTPL20WMA",
-            authDomain: "event-pulse-8d1a8.firebaseapp.com",
-            databaseURL: "https://event-pulse-8d1a8-default-rtdb.firebaseio.com",
-            projectId: "event-pulse-8d1a8",
-            storageBucket: "event-pulse-8d1a8.firebasestorage.app",
-            messagingSenderId: "956330318068",
-            appId: "1:956330318068:web:17a10f1584bd229e48a6a1"
-          };
-          
-
+            apiKey: process.env.FIREBASE_API_KEY,
+            authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+            databaseURL: process.env.FIREBASE_DATABASE_URL,
+            projectId: process.env.FIREBASE_PROJECT_ID,
+            storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+            messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+            appId: process.env.FIREBASE_APP_ID
+        };
+                
         // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = firebase.firestore(app);
-
-        // Fetch user's booked events from Firestore
-        db.collection('bookings').get()
-            .then((querySnapshot) => {
-                const eventsList = document.getElementById('eventsList');
-                querySnapshot.forEach((doc) => {
-                    const event = doc.data();
-                    const eventElement = document.createElement('div');
-                    eventElement.classList.add('event');
-                    eventElement.innerHTML = `
-                        <h2>${event.eventName}</h2>
-                        <p>${event.eventDescription}</p>
-                        <p>${event.eventDate}</p>
-                        <p>${event.eventTime}</p>
-                        <p>${event.eventLocation}</p>
-                    `;
-                    eventsList.appendChild(eventElement);
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        
+        // Remove loading indicator when DOM is ready
+        document.addEventListener('DOMContentLoaded', function() {
+            // Fetch user's booked events from Firestore
+            db.collection('bookings').get()
+                .then((querySnapshot) => {
+                    const eventsList = document.getElementById('eventsList');
+                    // Clear loading indicator
+                    eventsList.innerHTML = '';
+                    
+                    if (querySnapshot.empty) {
+                        eventsList.innerHTML = '<div class="no-events"><i class="fas fa-calendar-times fa-3x"></i><h3>No events booked yet</h3><p>Explore our event database to find exciting events to attend!</p></div>';
+                        return;
+                    }
+                    
+                    querySnapshot.forEach((doc) => {
+                        const event = doc.data();
+                        const eventElement = document.createElement('div');
+                        eventElement.classList.add('event');
+                        eventElement.innerHTML = `
+                            <h3>${event.eventName}</h3>
+                            <p><i class="fas fa-align-left"></i> ${event.eventDescription}</p>
+                            <p><i class="fas fa-calendar-day"></i> ${event.eventDate}</p>
+                            <p><i class="fas fa-clock"></i> ${event.eventTime}</p>
+                            <p><i class="fas fa-map-marker-alt"></i> ${event.eventLocation}</p>
+                            <button class="button cancel-button" data-id="${doc.id}"><i class="fas fa-times-circle"></i> Cancel Booking</button>
+                        `;
+                        eventsList.appendChild(eventElement);
+                    });
+                    
+                    // Add event listener for cancel buttons
+                    document.querySelectorAll('.cancel-button').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const bookingId = this.getAttribute('data-id');
+                            if (confirm('Are you sure you want to cancel this booking?')) {
+                                db.collection('bookings').doc(bookingId).delete()
+                                    .then(() => {
+                                        alert('Booking canceled successfully!');
+                                        location.reload();
+                                    })
+                                    .catch(error => {
+                                        console.error("Error removing booking: ", error);
+                                        alert('Error canceling booking. Please try again.');
+                                    });
+                            }
+                        });
+                    });
+                })
+                .catch((error) => {
+                    console.error("Error fetching events: ", error);
+                    const eventsList = document.getElementById('eventsList');
+                    eventsList.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle fa-2x"></i><p>Error loading events. Please try again later.</p></div>';
                 });
-            })
-            .catch((error) => {
-                console.error("Error fetching events: ", error);
-            });
+        });
     </script>
 </body>
 </html>

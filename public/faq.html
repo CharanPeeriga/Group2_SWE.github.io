@@ -1,21 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Event Pulse</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .faq-container {
+            max-width: 800px;
+            margin: 30px auto;
+        }
+        
+        .faq-item {
+            background-color: white;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            overflow: hidden;
+        }
+        
+        .faq-question {
+            padding: 18px 20px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+        
+        .faq-question:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .faq-question i {
+            color: #901111;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-answer {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+        
+        .faq-item.active .faq-question {
+            background-color: #f8f9fa;
+        }
+        
+        .faq-item.active .faq-question i {
+            transform: rotate(180deg);
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 1000px;
+        }
+        
+        .intro-text {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-question-circle"></i> Frequently Asked Questions</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><button><i class="fas fa-home"></i> Home</button></a></li>
+                <li><a href="eventdatabase.html"><button><i class="fas fa-calendar-alt"></i> Events</button></a></li>
+                <li><a href="loginregister.html"><button><i class="fas fa-sign-in-alt"></i> Login</button></a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <h1>Event Portal</h1>
-        <!-- Buttons for login, registration, event-portal, and FAQ page-->
-        <div class="button-container">
-            <a href="index.html" class="button">Home Page</a>
-            <a href="login.html" class="button">Login</a>
-            <a href="register.html" class="button">Register</a>
-            <a href="event-portal.html" class="button">Event Portal</a>
-            <a href="faq.html" class="button">FAQ</a>
-        </div>
+    <main>
+        <section id="contentSection">
+            <div class="faq-container">
+                <p class="intro-text">
+                    Welcome to our FAQ section. Here you'll find answers to the most common questions about Event Pulse and how to use our platform.
+                </p>
+                
+                <!-- FAQ Item 1 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How do I create an account?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Creating an account is simple! Click on the "Login" button in the navigation bar, then select the "Register" tab. Fill out the required information including your name, email, and password, then click "Register". Once registered, you can immediately start browsing and booking events.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 2 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How do I book an event?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To book an event, first browse through our events page to find something that interests you. Click on "View Details" to see more information about the event. If you decide to attend, click the "Book Now" button and follow the instructions to complete your booking. You'll need to be logged in to complete the booking process.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 3 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What payment methods do you accept?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We accept all major credit and debit cards including Visa, Mastercard, and American Express. We also offer payment through PayPal for added convenience. All transactions are secure and encrypted to protect your financial information.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 4 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Can I get a refund if I can't attend an event?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Refund policies are set by the event organizers and vary by event. Most events offer refunds if canceled within a certain timeframe before the event starts. Check the specific event's details page for refund information. If you need to request a refund, go to your account dashboard and select the event you wish to cancel.</p>
+                    </div>
+                </div>
+                
+                <!-- FAQ Item 5 -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How can I host my own event?
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    <div class="faq-answer">
+                        <p>To host an event, you'll need to register for a host account. Once logged in, go to your dashboard and select "Create Event". Fill out the event details including title, description, date, time, location, capacity, and ticket price. Submit your event for review, and once approved, it will appear in our event listings.</p>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+    </main>
+    
+    <footer>
+        <p>&copy; Spring 2025 Group 2 Software Engineering</p>
+    </footer>
 
-        <h2>Question 1</h2>
-        <p1>(insert answer)</p1>
-        <h2>Question 2</h2>
-        <p1>(insert answer)</p1>
-
-    </body>
+    <script>
+        // FAQ accordion functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item && otherItem.classList.contains('active')) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+        });
+    </script>
+</body>
 </html>
