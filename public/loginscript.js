@@ -39,7 +39,31 @@ document.addEventListener("DOMContentLoaded", function () {
         // Inputs
         let email = document.getElementById("username").value.trim();
         let password = document.getElementById("password").value.trim();
+        let confirmPassword = document.getElementById("confirmPassword") ? document.getElementById("confirmPassword").value.trim() : null;
 
+        if (confirmPassword) {
+            if (password !== confirmPassword) {
+                messageBox.textContent = "Passwords do not match. Please try again.";
+                messageBox.style.color = "red";
+                messageBox.style.display = "block";
+                return;
+            }
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    messageBox.textContent = "Registration successful! Redirecting...";
+                    messageBox.style.color = "green";
+                    messageBox.style.display = "block"; // Ensure it's visible
+                    setTimeout(() => {
+                        window.location.href = "event-portal.html"; // Redirect after registration
+                    }, 2000);
+                })
+                .catch((error) => {
+                    messageBox.textContent = "Error during registration. Please try again.";
+                    messageBox.style.color = "red";
+                    messageBox.style.display = "block";
+                });
+        } else {
         // Firebase Authentication
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -54,5 +78,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 messageBox.style.color = "red";
                 messageBox.style.display = "block"; // Ensure it's visible
             });
+        }
     });
 });
