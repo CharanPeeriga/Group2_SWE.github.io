@@ -21,7 +21,7 @@ const auth = getAuth(app);
 // remove later
 console.log("Firebase initialized");
 
-document.addEventListener("DOMContentLoaded", function()
+document.addEventListener("DOMContentLoaded", function() {
 
 // Handle form submission
     const registrationForm = document.getElementById("registrationForm");
@@ -88,3 +88,4 @@ document.addEventListener("DOMContentLoaded", function()
             alert(error.message);
         }
     });
+});
