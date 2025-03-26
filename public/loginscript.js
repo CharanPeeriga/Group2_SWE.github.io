@@ -39,6 +39,8 @@ document.addEventListener("DOMContentLoaded", function () {
         // Inputs
         let email = document.getElementById("username").value.trim();
         let password = document.getElementById("password").value.trim();
+        /*
+        ADD BACK WHEN FEATURE READY
         let confirmPassword = document.getElementById("confirmPassword") ? document.getElementById("confirmPassword").value.trim() : null;
 
         if (confirmPassword) {
@@ -63,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     messageBox.style.color = "red";
                     messageBox.style.display = "block";
                 });
-        } else {
+        } else { */
         // Firebase Authentication
         signInWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
@@ -78,6 +80,5 @@ document.addEventListener("DOMContentLoaded", function () {
                 messageBox.style.color = "red";
                 messageBox.style.display = "block"; // Ensure it's visible
             });
-        }
     });
 });
