@@ -1,39 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
-    <body>
-        <!-- Modal for Login -->
-        <div id="loginModal" class="modal">
-            <div class="button-container"> <!--fix later-->
-                <a href="#" id="loginBtn" class="button" style="display:none;">Login</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login/Register - Event Pulse</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-user-circle"></i> Account Access</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><button><i class="fas fa-home"></i> Home</button></a></li>
+                <li><a href="eventdatabase.html"><button><i class="fas fa-calendar-week"></i> Events</button></a></li>
+                <li><a href="faq.html"><button><i class="fas fa-question-circle"></i> FAQ</button></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <div class="auth-tabs">
+                <button id="loginTabBtn" class="auth-tab active"><i class="fas fa-sign-in-alt"></i> Login</button>
+                <button id="registerTabBtn" class="auth-tab"><i class="fas fa-user-plus"></i> Register</button>
             </div>
 
-            <div class="modal-content">
-                <h3>Login</h3>
-
+            <!-- Login Form -->
+            <div id="loginPanel" class="auth-panel active">
                 <form id="loginForm">
-                    <label for="username">Username:</label>
-                    <input type="text" id="username" required>
+                    <div class="form-group">
+                        <label for="username"><i class="fas fa-user"></i> Username:</label>
+                        <input type="text" id="username" required placeholder="Enter your username">
+                    </div>
 
-                    <label for="password">Password: </label>
-                    <input type="password" id="password" required>
+                    <div class="form-group">
+                        <label for="password"><i class="fas fa-lock"></i> Password:</label>
+                        <input type="password" id="password" required placeholder="Enter your password">
+                    </div>
                     
-                    <button type="submit">Login</button>
-
-        <!-- Buttons for login, registration, event-portal, and FAQ page-->
-        <div class="button-container">
-            <a href="register.html" class="button">Register</a>
-            <a href="event-portal.html" class="button">Event Portal</a>
-            <a href="faq.html" class="button">FAQ</a>
-
-        </div>
+                    <div class="form-footer">
+                        <button type="submit" class="button"><i class="fas fa-sign-in-alt"></i> Login</button>
+                        <a href="#" class="forgot-password">Forgot password?</a>
+                    </div>
                 </form>
-                <span id="closeModal" style="cursor:pointer;">&times;</span>
+            </div>
+
+            <!-- Register Form -->
+            <div id="registerPanel" class="auth-panel">
+                <form id="registrationForm">
+                    <div class="form-group">
+                        <label for="firstName"><i class="fas fa-user"></i> First Name:</label>
+                        <input type="text" id="firstName" required placeholder="Legal first name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="lastName"><i class="fas fa-user"></i> Last Name:</label>
+                        <input type="text" id="lastName" required placeholder="Legal last name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="DOB"><i class="fas fa-calendar"></i> Date of Birth:</label>
+                        <input type="date" id="DOB" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userEmail"><i class="fas fa-envelope"></i> Email:</label>
+                        <input type="email" id="userEmail" required placeholder="Your email address">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="userPassword"><i class="fas fa-lock"></i> Password:</label>
+                        <input type="password" id="userPassword" required placeholder="Create a password">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phoneNumber"><i class="fas fa-phone"></i> Phone Number:</label>
+                        <input type="tel" id="phoneNumber" required placeholder="Your phone number">
+                    </div>
+
+                    <div class="form-footer">
+                        <button type="submit" class="button"><i class="fas fa-user-plus"></i> Create Account</button>
+                    </div>
+                </form>
             </div>
         </div>
+    </main>
 
-        <!--Javascript linkage-->
-        <script type="module" src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
-        <script type="module" src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js"></script>
-        <script src="loginscript.js"></script>
-    </body>
+    <footer>
+        <p>&copy; Spring 2025 Group 2 Software Engineering</p>
+    </footer>
+
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js"></script>
+    <script>
+        // Tab switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginTabBtn = document.getElementById('loginTabBtn');
+            const registerTabBtn = document.getElementById('registerTabBtn');
+            const loginPanel = document.getElementById('loginPanel');
+            const registerPanel = document.getElementById('registerPanel');
+
+            // Check URL hash for #register
+            if (window.location.hash === '#register') {
+                registerTabBtn.classList.add('active');
+                loginTabBtn.classList.remove('active');
+                registerPanel.classList.add('active');
+                loginPanel.classList.remove('active');
+            }
+
+            loginTabBtn.addEventListener('click', function() {
+                loginTabBtn.classList.add('active');
+                registerTabBtn.classList.remove('active');
+                loginPanel.classList.add('active');
+                registerPanel.classList.remove('active');
+                window.location.hash = 'login';
+            });
+
+            registerTabBtn.addEventListener('click', function() {
+                registerTabBtn.classList.add('active');
+                loginTabBtn.classList.remove('active');
+                registerPanel.classList.add('active');
+                loginPanel.classList.remove('active');
+                window.location.hash = 'register';
+            });
+        });
+    </script>
+    <script src="loginscript.js"></script>
+</body>
 </html>
