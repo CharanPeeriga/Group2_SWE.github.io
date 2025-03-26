@@ -82,8 +82,7 @@ main
     margin: 0 auto;
 }
 
-#contentSection 
-{
+#contentSection {
     margin-top: 20px;
     padding: 30px;
     background-color: #fff;
@@ -177,8 +176,7 @@ footer
     margin-top: 30px;
 }
 
-.hidden 
-{
+.hidden {
     display: none;
 }
 

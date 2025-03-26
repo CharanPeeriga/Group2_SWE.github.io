@@ -1,22 +1,14 @@
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import {firebaseConfig} from "./firebase-config.js"
 
-const firebaseConfig = {
-    apiKey: "AIzaSyCMWv6HtYj9UfkTZIf5ry9xfXnTPL20WMA",
-    authDomain: "event-pulse-8d1a8.firebaseapp.com",
-    databaseURL: "https://event-pulse-8d1a8-default-rtdb.firebaseio.com",
-    projectId: "event-pulse-8d1a8",
-    storageBucket: "event-pulse-8d1a8.firebasestorage.app",
-    messagingSenderId: "956330318068",
-    appId: "1:956330318068:web:17a10f1584bd229e48a6a1"
-};
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
+console.log("Firebase initialized");
 document.addEventListener('DOMContentLoaded', async () => {
-    const eventsList = document.getElementById('events-list');
+    const eventsList = document.getElementById('events');
 
     try {
         console.log("Fetching events...");
@@ -37,8 +29,29 @@ document.addEventListener('DOMContentLoaded', async () => {
             li.classList.add('event-item');
 
             // Format date/time properly
-            const startTime = event.start_time.toDate().toLocaleString();
-            const endTime = event.end_time.toDate().toLocaleString();
+            let startTime;
+            let endTime;
+            try{
+                startTime = event.start_time.toDate().toLocaleString();
+            } catch (error) {
+                startTime = event.start_time;
+            }
+            
+            
+            try{
+                endTime = event.end_time.toDate().toLocaleString();
+            } catch (error) {
+                endTime = event.end_time;
+            }
+
+            // handle if free
+            let price;
+            if(!event.price) {
+                price = 0;
+            } else {
+                price = event.price;
+            }
+            
 
             // Display event details
             li.innerHTML = `
@@ -46,7 +59,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <p><strong>Category:</strong> ${event.event_category}</p>
                 <p><strong>Description:</strong> ${event.event_description}</p>
                 <p><strong>Location:</strong> ${event.location}</p>
-                <p><strong>Price:</strong> $${event.price.toFixed(2)}</p>
+                <p><strong>Price:</strong> $${price}</p>
                 <p><strong>Start:</strong> ${startTime}</p>
                 <p><strong>End:</strong> ${endTime}</p>
                 <p><strong>Attendees:</strong> ${event.current_attendees_count} / ${event.max_capacity}</p>
