@@ -52,6 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch((error) => {
                 messageBox.textContent = "Invalid username or password. Please try again.";
                 messageBox.style.color = "red";
+                messageBox.style.display = "block"; // Ensure it's visible
             });
     });
 });
