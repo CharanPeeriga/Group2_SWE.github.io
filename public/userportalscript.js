@@ -13,6 +13,26 @@ const auth = getAuth(app);
 
 // Logout functionality
 const logoutButton = document.getElementById("logoutButton");
+
+// Check if the user is logged in or not
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User is signed in
+        console.log("User is logged in:", user);
+        // Show the logout button
+        if (logoutButton) {
+            logoutButton.style.display = "block";
+        }
+    } else {
+        // User is not signed in
+        console.log("No user is logged in.");
+        // Hide the logout button
+        if (logoutButton) {
+            logoutButton.style.display = "none";
+        }
+    }
+});
+
 if (logoutButton) {
     logoutButton.addEventListener("click", async () => {
         try {
