@@ -40,7 +40,7 @@
                     </div>
                     
                     <div class="form-footer">
-                        <button type="submit" class="button"><i class="fas fa-sign-in-alt"></i> Login</button>
+                        <button type="submit" id="loginBtn" class="button"><i class="fas fa-sign-in-alt"></i> Login</button>
                         <a href="#" class="forgot-password">Forgot password?</a>
                     </div>
                 </form>
@@ -95,10 +95,7 @@
 
     <footer>
         <p>&copy; Spring 2025 Group 2 Software Engineering</p>
-    </footer>
-
-    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js"></script>
+    </footer>    
     <script>
         // Tab switching functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -132,8 +129,13 @@
             });
         });
     </script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js"></script>
+    <script type="module" src="firebase-config.js"></script>
     <script type="module" src="loginscript.js"></script>
     <script type="module" src="registrationscript.js"></script>
+    <script type="module" src="authState.js"></script>
+
 
 </body>
 </html>
