@@ -76,7 +76,11 @@
             <ul>
                 <li><a href="index.html"><button><i class="fas fa-home"></i> Home</button></a></li>
                 <li><a href="eventdatabase.html"><button><i class="fas fa-calendar-alt"></i> Events</button></a></li>
-                <li><a href="loginregister.html"><button><i class="fas fa-sign-in-alt"></i> Login</button></a></li>
+                <!-- Login button -->
+                <li id="loginItem"><a href="loginregister.html"><button><i class="fas fa-sign-in-alt"></i> Login</button></a></li>
+                
+                <!-- Logout button (hidden by default) -->
+                <li id="logoutItem" style="display: none;"><button id="logoutButton"><i class="fas fa-sign-out-alt"></i> Logout</button></li>
             </ul>
         </nav>
     </header>
@@ -174,6 +178,7 @@
         });
     </script>
     <script type="module" src="authState.js"></script>
+    <script type="module" src="faqscript.js"></script>
 
 </body>
 </html>

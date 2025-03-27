@@ -12,6 +12,7 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 const loginRegisterItem = document.getElementById("loginRegisterItem");
+const userPortalItem = document.getElementById("userPortalItem")
 // Check if the user is logged in or not
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -27,6 +28,9 @@ onAuthStateChanged(auth, (user) => {
         // Show the login/register list item if the user is not logged in
         if (loginRegisterItem) {
             loginRegisterItem.style.display = "block";
+        }
+        if (userPortalItem) {
+            userPortalItem.style.display = "none";
         }
     }
 });

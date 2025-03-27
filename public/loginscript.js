@@ -38,7 +38,7 @@ document.getElementById("loginForm").addEventListener("submit", async (event) =>
         alert(`Welcome back, ${user.email}!`);
 
         //redirect to eventdatabase.html
-        window.location.href = "eventdatabase.html";
+        window.location.href = "userportal.html";
     } catch (error) {
         console.log("Error signing in:", error);
 
