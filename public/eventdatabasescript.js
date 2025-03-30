@@ -7,71 +7,97 @@ import {firebaseConfig} from "./firebase-config.js"
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 console.log("Firebase initialized");
+
 document.addEventListener('DOMContentLoaded', async () => {
     const eventsList = document.getElementById('events');
+    const categorySelect = document.getElementById('categorySelect');
+    const eventSearch = document.getElementById('eventSearch');
+    let events = [];
 
+    // Fetch events from Firebase
     try {
         console.log("Fetching events...");
 
-        // Use modular syntax to fetch events
         const querySnapshot = await getDocs(collection(db, "events"));
 
         if (querySnapshot.empty) {
-            eventsList.innerHTML = `<li>No events found.</li>`;
+            eventsList.innerHTML = `<p>No events found.</p>`;
             return;
         }
 
         querySnapshot.forEach(doc => {
             const event = doc.data();
+            events.push(event);
 
-            // Create a list item for each event
-            const li = document.createElement('li');
-            li.classList.add('event-item');
-
-            // Format date/time properly
-            let startTime;
-            let endTime;
-            try{
-                startTime = event.start_time.toDate().toLocaleString();
-            } catch (error) {
-                startTime = event.start_time;
-            }
-            
-            
-            try{
-                endTime = event.end_time.toDate().toLocaleString();
-            } catch (error) {
-                endTime = event.end_time;
-            }
-
-            // handle if free
-            let price;
-            if(!event.price) {
-                price = 0;
-            } else {
-                price = event.price;
-            }
-            
-
-            // Display event details
-            li.innerHTML = `
-                <h3>${event.event_name}</h3>
-                <p><strong>Category:</strong> ${event.event_category}</p>
-                <p><strong>Description:</strong> ${event.event_description}</p>
-                <p><strong>Location:</strong> ${event.location}</p>
-                <p><strong>Price:</strong> $${price}</p>
-                <p><strong>Start:</strong> ${startTime}</p>
-                <p><strong>End:</strong> ${endTime}</p>
-                <p><strong>Attendees:</strong> ${event.current_attendees_count} / ${event.max_capacity}</p>
-                <p><strong>Privacy:</strong> ${event.privacy_type}</p>
-                <p><strong>Cancellation Policy:</strong> ${event.cancellation_policy}</p>
-            `;
-
-            eventsList.appendChild(li);
+            //create event card for each event
+            const eventCard = createEventCard(event);
+            eventsList.appendChild(eventCard);
         });
 
     } catch (error) {
         console.error("Error fetching events:", error);
-        eventsList.innerHTML = `<li>Error loading events. Please try again later.</li>`;
+        eventsList.innerHTML = `<p>Error loading events. Please try again later.</p>`;
+    }
+
+    //listener to filter through events based on category
+    categorySelect.addEventListener('change', () => {
+        filterEvents(categorySelect.value, eventSearch.value, events);
+    });
+
+    //listener to filter through events based on characters in search bar
+    eventSearch.addEventListener('input', () => {
+        filterEvents(categorySelect.value, eventSearch.value, events);
+    });
+
+    //start by showing all events
+    function filterEvents(category, searchTerm, events) {
+        eventsList.innerHTML = '';  //clears the currently event cards currently showing
+
+        //filter events based on category and characters in search bar  
+        const filteredEvents = events.filter(event => {
+            const matchesCategory = category ? event.event_category === category : true;
+            const matchesSearchTerm = event.event_name.toLowerCase().includes(searchTerm.toLowerCase());
+            return matchesCategory && matchesSearchTerm;
+        });
+
+        //now only show event cards that match the filters
+        if (filteredEvents.length === 0) {
+            eventsList.innerHTML = `<p>No events found matching your filters.</p>`;
+        }
+
+        filteredEvents.forEach(event => {
+            const eventCard = createEventCard(event);
+            eventsList.appendChild(eventCard);
+        });
+    }
+
+    //event card elements
+    function createEventCard(event) {
+        const eventCard = document.createElement('div');
+        eventCard.classList.add('event-card');
+
+        //how start time is displayed on event card
+        let startTime;
+        try {
+            startTime = event.start_time.toDate().toLocaleString();
+        } catch (error) {
+            startTime = event.start_time;
+        }
+
+        //information on event card
+        eventCard.innerHTML = `
+            <h3>${event.event_name}</h3>
+            <p><strong>Category:</strong> ${event.event_category}</p>
+            <p><strong>Location:</strong> ${event.location}</p>
+            <p><strong>Start:</strong> ${startTime}</p>
+        `;
+
+        //move to transaction page when event card is clicked
+        eventCard.onclick = () => {
+            const eventDetails = encodeURIComponent(JSON.stringify(event));
+            window.location.href = `transactionpage.html?event=${eventDetails}`;
+        };
+
+        return eventCard;
     }
 });
