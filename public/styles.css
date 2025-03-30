@@ -1,3 +1,4 @@
+/*index styling*/
 body 
 {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -82,6 +83,7 @@ main
     margin: 0 auto;
 }
 
+/*transaction page ui*/
 #contentSection {
     margin-top: 20px;
     padding: 30px;
@@ -92,7 +94,114 @@ main
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
-#events {
+#contentSection button
+{
+    padding: 10px 20px;
+    background-color: #901111;
+    color: white;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+}
+
+#contentSection button:hover
+{
+    background-color: #cc0f0f;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+/*format for event listing in user portal*/
+#eventList 
+{
+    margin-top: 30px;
+    list-style-type: none;
+    padding: 10;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    /* Ensuring uniform alignment and spacing */
+}
+
+/*"Your Booked Events" title formatting*/
+#eventList h3 
+{
+    color: #e45555;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+/*ui format when user has no booked events*/
+#eventList g
+{
+    font-size: 1.2rem;
+    margin: 5px 0;
+    color: #333;
+    width: 100%;
+}
+
+#eventList i
+{
+    color: #901111;
+    margin-bottom: 10px;
+}
+
+#eventList a
+{
+    text-decoration: none;
+    color: #901111;
+    font-weight: 600;
+}
+
+/*ui for event cards on the user portal */
+.event-cardPORTAL 
+{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    width: 300px;
+}
+
+/*hovering for user portal event cards*/
+.event-cardPORTAL:hover 
+{
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/*title lettering for each event card*/
+.event-cardPORTAL h1 
+{
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #f94444;
+}
+
+/*gui for event card info*/
+.event-cardPORTAL p
+{
+    font-size: 1.0rem;
+    margin: 7px 0;
+    color: rgb(103, 65, 49);
+}
+
+/*event database page layout*/
+#events 
+{
     margin-top: 30px;
 }
 
@@ -109,23 +218,27 @@ main
     margin: 10px 0;
 }
 
+/*each specific clickable event*/
 .event-card {
     background-color: white;
-    border-radius: 10px;
-    padding: 25px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-    width: 280px;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 15px;
+    width: 300px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: transform 0.2 ease, box-shadow 0.2 ease;
+    cursor: pointer;
+    margin-bottom: 20px;
     text-align: center;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-    align-items: center;
+    gap: 10px;
 }
+
 
 .event-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .event-card i {
@@ -133,21 +246,33 @@ main
     margin-bottom: 10px;
 }
 
+/*event card titles*/
 .event-card h3 {
-    margin: 10px 0;
+    font-size: 1.3rem;
+    font-weight: 600;
+    margin-bottom: 10px;
     color: #333;
 }
 
+/*event card description*/
 .event-card p {
-    color: #666;
-    margin-bottom: 15px;
+    font-size: 1.1rem;
+    margin: 5px 0;
+    color: #655;
 }
 
+/*event card label*/
+.event-card strong {
+    color:#333;
+}
+
+/*event card layout on database*/
 #events ul li a {
     text-decoration: none;
     color: inherit;
 }
 
+/*user portal events page*/
 #eventsList {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -174,6 +299,41 @@ footer
     background: linear-gradient(to right, #ff5757, #ed7a7a);
     color: white;
     margin-top: 30px;
+}
+
+/*search bar for Event Database*/
+#search-bar
+{
+    margin-top: 20px;
+    text-align: center;
+}
+
+#search-bar label
+{
+    font-size: 1rem;
+    margin-right: 10px;
+}
+
+#eventSearch
+{
+    padding: 8px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #fff;
+    width: 90%;
+    max-width: 400px;
+    margin-top: 10px;
+}
+
+/*how events show up when searched for from database*/
+#events
+{
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
 }
 
 .hidden {
@@ -283,6 +443,11 @@ label {
     color: #666;
 }
 
+.loading-indicator h3 {
+    color: #d46e6e;
+    font-size: 1.5rem;
+}
+
 .loading-indicator i {
     color: #901111;
     margin-bottom: 15px;
@@ -343,7 +508,7 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Auth Container Styling (Login/Register) */
+/*login/register styling*/
 .auth-container {
     max-width: 600px;
     margin: 30px auto;
@@ -432,209 +597,61 @@ a:hover {
     text-decoration: underline;
 }
 
-/* Event Search and Filtering */
-.event-search {
-    margin: 30px 0;
-    background-color: #f8f9fa;
-    border-radius: 10px;
+/*modal style for popup on userportal page*/
+.modal 
+{
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.4); /* Black with opacity */
+}
+
+.modal-content 
+{
+    background-color: #fff;
+    margin: 15% auto;
     padding: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
 }
 
-.search-bar {
-    display: flex;
-    margin-bottom: 15px;
+.close 
+{
+    color: #aaa;
+    font-size: 28px;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    cursor: pointer;
 }
 
-.search-bar input {
-    flex: 1;
-    padding: 12px 15px;
-    border: 1px solid #ddd;
-    border-radius: 25px 0 0 25px;
-    font-size: 16px;
-    outline: none;
+.close:hover,
+.close:focus 
+{
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
 }
 
-.search-button {
-    background-color: #901111;
+/*both view directions and cancel event buttons*/
+.modal-actions button 
+{
+    padding: 10px;
+    margin: 5px;
+    background-color: #e45023;
     color: white;
     border: none;
-    border-radius: 0 25px 25px 0;
-    padding: 0 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.search-button:hover {
-    background-color: #c02626;
-}
-
-.filter-options {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-.filter-options select {
-    padding: 10px 15px;
-    border: 1px solid #ddd;
-    border-radius: 25px;
-    font-size: 14px;
-    background-color: white;
-    min-width: 150px;
     cursor: pointer;
 }
 
-/* Eventbrite-like Event List */
-#events-list {
-    margin-bottom: 40px;
-}
-
-.event-item {
-    display: flex;
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-    margin-bottom: 20px;
-    overflow: hidden;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.event-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-}
-
-.event-date {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 15px;
-    min-width: 100px;
-    background-color: #f8f9fa;
-    border-right: 1px solid #eee;
-}
-
-.date-box {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: white;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 8px;
-    margin-bottom: 8px;
-    width: 70px;
-}
-
-.date-box .month {
-    font-size: 14px;
-    text-transform: uppercase;
-    font-weight: 600;
-    color: #901111;
-}
-
-.date-box .day {
-    font-size: 24px;
-    font-weight: 700;
-    color: #333;
-}
-
-.event-date .time {
-    font-size: 14px;
-    color: #666;
-}
-
-.event-info {
-    flex: 1;
-    padding: 20px;
-}
-
-.event-info h3 {
-    margin: 0 0 10px;
-    color: #333;
-    font-size: 20px;
-}
-
-.event-location, .event-organizer {
-    margin: 5px 0;
-    color: #666;
-    font-size: 14px;
-}
-
-.event-location i, .event-organizer i {
-    margin-right: 5px;
-    color: #901111;
-}
-
-.event-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 12px;
-}
-
-.tag {
-    display: inline-block;
-    background-color: #f0f0f0;
-    color: #666;
-    padding: 5px 10px;
-    border-radius: 15px;
-    font-size: 12px;
-    font-weight: 500;
-}
-
-.event-price {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-    min-width: 140px;
-    background-color: #f8f9fa;
-    border-left: 1px solid #eee;
-}
-
-.price {
-    font-size: 20px;
-    font-weight: 700;
-    color: #333;
-    margin-bottom: 15px;
-}
-
-.view-details-btn {
-    white-space: nowrap;
-}
-
-/* Responsive styling for event list */
-@media (max-width: 768px) {
-    .event-item {
-        flex-direction: column;
-    }
-    
-    .event-date {
-        flex-direction: row;
-        justify-content: center;
-        width: 100%;
-        border-right: none;
-        border-bottom: 1px solid #eee;
-        padding: 10px;
-    }
-    
-    .date-box {
-        margin-right: 15px;
-        margin-bottom: 0;
-    }
-    
-    .event-price {
-        border-left: none;
-        border-top: 1px solid #eee;
-        width: 100%;
-        flex-direction: row;
-        gap: 20px;
-    }
-    
-    .price {
-        margin-bottom: 0;
-    }
+.modal-actions button:hover 
+{
+    background-color: #b30600;
 }
