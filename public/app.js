@@ -12,7 +12,8 @@ const db = getFirestore(app);
 const auth = getAuth(app);
 
 const loginRegisterItem = document.getElementById("loginRegisterItem");
-const userPortalItem = document.getElementById("userPortalItem")
+const userPortalItem = document.getElementById("userPortalItem");
+const getStartedButton = document.getElementById("getStartedButton");
 // Check if the user is logged in or not
 onAuthStateChanged(auth, (user) => {
     if (user) {
@@ -22,6 +23,10 @@ onAuthStateChanged(auth, (user) => {
         if (loginRegisterItem) {
             loginRegisterItem.style.display = "none";
         }
+        
+        getStartedButton.style.display = "none";
+
+
     } else {
         // User is not signed in
         console.log("No user is logged in.");

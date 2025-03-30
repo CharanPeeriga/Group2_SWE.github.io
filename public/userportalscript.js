@@ -102,7 +102,7 @@ const loadBookedEvents = async () => {
                     <g>Start booking some events!</g>
                         <div class="loading-indicator">
                             <i class="fas fa-spinner fa-spin fa-2x"></i>
-                            <a>Loading your events...</a>
+                            <a>You have no booked events.</a>
                         </div>
                     `;
                 }

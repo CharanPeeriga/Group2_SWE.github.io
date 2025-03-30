@@ -1,12 +1,29 @@
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; 
 import {firebaseConfig} from "./firebase-config.js"
 
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 console.log("Firebase initialized");
+
+// Check if the user is logged in or not
+onAuthStateChanged(auth, (user) => {
+    if (user) {
+        // User is signed in
+        console.log("User is logged in:", user);
+
+        // Fetch the user's first name from Firestore
+        getUserFirstName(user.uid);
+        
+    } else {
+        // User is not signed in
+        console.log("No user is logged in.");
+    }
+});
 
 document.addEventListener('DOMContentLoaded', async () => {
     const eventsList = document.getElementById('events');
