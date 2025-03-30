@@ -31,38 +31,8 @@
     <p>&copy; Spring 2025 Group 2 Software Engineering</p>
 </footer>
 
-<script>
-    //url parameters
-    const urlParams = new URLSearchParams(window.location.search);
-    const eventDetails = JSON.parse(decodeURIComponent(urlParams.get('event')));
-
-    //event information
-    const eventDetailsDiv = document.getElementById('eventDetails');
-    eventDetailsDiv.innerHTML = `
-        <p><strong>Event Name:</strong> ${eventDetails.event_name}</p>
-        <p><strong>Category:</strong> ${eventDetails.event_category}</p>
-        <p><strong>Location:</strong> ${eventDetails.location}</p>
-        <p><strong>Start Time:</strong> ${new Date(eventDetails.start_time.seconds * 1000).toLocaleString()}</p>
-        <p><strong>End Time:</strong> ${new Date(eventDetails.end_time.seconds * 1000).toLocaleString()}</p>
-        <p><strong>Description:</strong> ${eventDetails.event_description}</p>
-        <p><strong>Price:</strong> $${eventDetails.price || 0}</p>
-        <p><strong>Attendees:</strong> ${eventDetails.current_attendees_count} / ${eventDetails.max_capacity}</p>
-        <p><strong>Privacy Type:</strong> ${eventDetails.privacy_type}</p>
-        <p><strong>Cancellation Policy:</strong> ${eventDetails.cancellation_policy}</p>
-    `;
-
-    //button for user to book event
-    const bookNowBtn = document.getElementById('bookNowBtn');
-    const confirmationMessage = document.getElementById('confirmationMessage');
-
-    bookNowBtn.onclick = () => 
-    {
-        confirmationMessage.classList.remove('hidden');
-        confirmationMessage.innerHTML = `<p>Congratulations! You have successfully booked the event: ${eventDetails.event_name}.</p>`;
-    };
-</script>
+<script type="module" src="transactionscript.js"></script>
 <script type="module" src="authState.js"></script>
-
 
 </body>
 </html>
