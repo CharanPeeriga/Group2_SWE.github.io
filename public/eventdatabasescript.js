@@ -16,14 +16,13 @@ onAuthStateChanged(auth, (user) => {
         // User is signed in
         console.log("User is logged in:", user);
 
-        // Fetch the user's first name from Firestore
-        getUserFirstName(user.uid);
         
     } else {
         // User is not signed in
         console.log("No user is logged in.");
     }
 });
+
 
 document.addEventListener('DOMContentLoaded', async () => {
     const eventsList = document.getElementById('events');
@@ -87,8 +86,9 @@ document.addEventListener('DOMContentLoaded', async () => {
             eventsList.appendChild(eventCard);
         });
     }
+ 
 
-    //event card elements
+    // //event card elements
     function createEventCard(event) {
         const eventCard = document.createElement('div');
         eventCard.classList.add('event-card');
