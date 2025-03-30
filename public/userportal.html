@@ -24,17 +24,28 @@
 
     <main>
         <section id="contentSection">
-            <h2>Your Booked Events</h2>
+            <!--Welcome message-->
+            <h2 id="welcomeMessage">Loading welcome message...</h2>
             <p>Here you can view and manage all the events you've booked.</p>
         </section>
         
-        <div id="eventsList">
+        <div id="eventList">
             <!-- Events will be loaded dynamically here -->
-            <div class="loading-indicator">
-                <i class="fas fa-spinner fa-spin fa-2x"></i>
-                <p>Loading your events...</p>
+        </div>
+
+        <!-- Event Details Modal -->
+        <div id="eventModal" class="modal">
+            <div class="modal-content">
+                <span id="closeModal" class="close">&times;</span>
+                <h3 id="eventModalTitle">Event Options</h3>
+                <p id="eventModalDescription"></p>
+                <div class="modal-actions">
+                    <button id="viewDirectionsBtn">View Directions</button>
+                    <button id="cancelEventBtn">Cancel Event</button>
+                </div>
             </div>
         </div>
+
         
         <div class="button-container">
             <a href="eventdatabase.html" class="button"><i class="fas fa-plus-circle"></i> Book More Events</a>
@@ -45,8 +56,11 @@
         <p>&copy; Spring 2025 Group 2 Software Engineering</p>
     </footer>
 
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
+
+    <!-- Custom Scripts -->
     <script type="module" src="./firebase-config.js"></script>
     <script type="module" src="./userportalscript.js"></script>
     <script type="module" src="authState.js"></script>
