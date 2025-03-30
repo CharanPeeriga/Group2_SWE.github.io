@@ -2,6 +2,7 @@
 ## Group 2
 ### Event Pulse Project for CSC4350 - Software Engineering
 #### Web App: https://event-pulse-8d1a8.web.app
+#### Technologies: React, JS, HTML, CSS, Firestore (Database), and Firebase (Hosting)
 ### Members:
 Back-end:
 - Terry Andi Marala
@@ -12,28 +13,37 @@ Front-end:
 - Daisy Holt
 - Lauren Warren
 - Christy Lam
-## Current Sprint: 3 (Status: In Progress - Demo)
+## Current Sprint: 4 (Status: In Progress)
 Part | Due Date
 --------|-----------
-Presentation | March 12th, 2025
-Demo | March 24th, 2025
-### Tasks:
+Document | April 9th, 2025
+Presentations | April 14th or 16th, 2025
+### Document Tasks:
 - Revisions
     - Context, Activity Diagrams
     - Requirements
     - Database Tables
-- Class Diagram
-- Behavioral Modeling (Sequence Diagram)
-- Implementation of Database 
-    - Group Tasks
-        - Choosing Framework in detail
-        - Test Use Cases on System
-    - Backend
-        - Create Database with PostGreSQL
-        - Initialize Firebase Webpage
-    - Frontend
-        - Create GUI
-        - Link GUI elements to Backend code
+    - Class Diagram
+    - Behavioral Modeling (Sequence Diagram)
+    - Database 
+- Testing (test cases)
+- Architechural Modeling
+### Programming Tasks:
+- Everyone
+    - Test System
+- Backend
+    - Revamp Firestore rules for stricter database fields
+    - Transactions Processing
+    - Notification Updates
+    - Implement Park-me/Google Maps API (display mini map)
+    - User portal additions (profile, favorite events, socials)
+    - Admin system
+    - Event portal (for event management)
+- Frontend
+    - Transactions Page UI
+    - Event Portal UI (managing events)
+    - Notifications UI
+    - Admin System UI
 
 #### Project Progress:
 https://github.com/users/CharanPeeriga/projects/1/views/1
