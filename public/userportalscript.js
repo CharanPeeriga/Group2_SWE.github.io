@@ -1,13 +1,10 @@
-import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; // Use the same version here
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; 
 import { firebaseConfig } from "./firebase-config.js";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-
 const db = getFirestore(app);
 const auth = getAuth(app);
 
@@ -23,6 +20,10 @@ onAuthStateChanged(auth, (user) => {
         if (logoutButton) {
             logoutButton.style.display = "block";
         }
+
+        // Fetch the user's first name from Firestore
+        getUserFirstName(user.uid);
+        
     } else {
         // User is not signed in
         console.log("No user is logged in.");
@@ -45,56 +46,191 @@ if (logoutButton) {
     });
 }
 
-// Remove loading indicator when DOM is ready
-document.addEventListener('DOMContentLoaded', function() {
-    // Fetch user's booked events from Firestore
-    db.collection('bookings').get()
-        .then((querySnapshot) => {
-            const eventsList = document.getElementById('eventsList');
-            // Clear loading indicator
-            eventsList.innerHTML = '';
-            
-            if (querySnapshot.empty) {
-                eventsList.innerHTML = '<div class="no-events"><i class="fas fa-calendar-times fa-3x"></i><h3>No events booked yet</h3><p>Explore our event database to find exciting events to attend!</p></div>';
-                return;
+//Gets user's first name to be used for greeting in user portal
+async function getUserFirstName(userId) 
+{
+    try 
+    {
+        const userDoc = await getDoc(doc(db, 'users', userId));
+        //access the users collection in firebase
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            const firstName = userData.firstName;
+
+            //first name is in welcome message
+            const welcomeMessage = document.getElementById('welcomeMessage');
+            if (welcomeMessage) {
+                welcomeMessage.innerHTML = `Welcome, to your user portal ${firstName}!`;
             }
-            
-            querySnapshot.forEach((doc) => {
-                const event = doc.data();
-                const eventElement = document.createElement('div');
-                eventElement.classList.add('event');
-                eventElement.innerHTML = `
-                    <h3>${event.eventName}</h3>
-                    <p><i class="fas fa-align-left"></i> ${event.eventDescription}</p>
-                    <p><i class="fas fa-calendar-day"></i> ${event.eventDate}</p>
-                    <p><i class="fas fa-clock"></i> ${event.eventTime}</p>
-                    <p><i class="fas fa-map-marker-alt"></i> ${event.eventLocation}</p>
-                    <button class="button cancel-button" data-id="${doc.id}"><i class="fas fa-times-circle"></i> Cancel Booking</button>
-                `;
-                eventsList.appendChild(eventElement);
-            });
-            
-            // Add event listener for cancel buttons
-            document.querySelectorAll('.cancel-button').forEach(button => {
-                button.addEventListener('click', function() {
-                    const bookingId = this.getAttribute('data-id');
-                    if (confirm('Are you sure you want to cancel this booking?')) {
-                        db.collection('bookings').doc(bookingId).delete()
-                            .then(() => {
-                                alert('Booking canceled successfully!');
-                                location.reload();
-                            })
-                            .catch(error => {
-                                console.error("Error removing booking: ", error);
-                                alert('Error canceling booking. Please try again.');
-                            });
-                    }
-                });
-            });
-        })
-        .catch((error) => {
-            console.error("Error fetching events: ", error);
-            const eventsList = document.getElementById('eventsList');
-            eventsList.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-triangle fa-2x"></i><p>Error loading events. Please try again later.</p></div>';
-        });
+        } else {
+            console.log("No user document found!");
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+    }
+}
+
+//gets booked events that are present in the user's specific bookings collection
+const loadBookedEvents = async () => {
+    const user = auth.currentUser; //get the user who is currently logged in
+    const eventListContainer = document.getElementById('eventList');
+
+    if (user)//if this is an authenicated user
+        {
+        try {
+            //Get user document reference
+            const userRef = doc(db, 'users', user.uid);
+            const userSnapshot = await getDoc(userRef);
+
+            if (userSnapshot.exists()) {
+                const userData = userSnapshot.data();
+
+                //Access bookings array from user data
+                const bookings = userData.bookings || [];
+
+                if (bookings.length > 0) {
+                    //display booked events
+                    eventListContainer.innerHTML = "<h3>Your Booked Events:</h3>";
+
+                    //Loop through each booking and create event cards
+                    bookings.forEach(event => {
+                        const eventCard = createEventCard(event);
+                        eventListContainer.appendChild(eventCard);
+                    });
+                } else {//if there are no bookings, stay on loading
+                    eventListContainer.innerHTML = `
+                    <g>Start booking some events!</g>
+                        <div class="loading-indicator">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <a>Loading your events...</a>
+                        </div>
+                    `;
+                }
+            } else {
+                eventListContainer.innerHTML = "<p>Unable to load your bookings.</p>";
+            }
+        } catch (error) {
+            console.error("Error loading user bookings:", error);
+            eventListContainer.innerHTML = "<p>There was an error loading your events. Please try again.</p>";
+        }
+    } else {
+        eventListContainer.innerHTML = "<p>You need to be logged in to view your booked events.</p>";
+    }
+};
+
+//how event cards are displayes
+const createEventCard = (event) => {
+    const card = document.createElement('div');
+    card.classList.add('event-cardPORTAL');
+
+    card.innerHTML = `
+        <h1 class="event-title">${event.event_name}</h1>
+        <p><strong>Location:</strong> ${event.location}</p>
+        <p><strong>Start Time:</strong> ${new Date(event.start_time.seconds * 1000).toLocaleString()}</p>
+        <p><strong>End Time:</strong> ${new Date(event.end_time.seconds * 1000).toLocaleString()}</p>
+        <p><strong>Cancellation Policy:</strong> ${event.cancellation_policy}</p>
+    `;
+
+    //modal when event cards are clicked to offer user two options
+    card.onclick = () => openEventModal(event);
+
+    return card;
+};
+
+//ensures that the user is logged in before loading the booked events
+onAuthStateChanged(auth, (user) => {
+    const eventListContainer = document.getElementById('eventList');
+    
+    if (user) {
+        //If user is logged in, load the events
+        loadBookedEvents();
+    } else {
+        //If user is not logged in, show a message
+        eventListContainer.innerHTML = "<p>You need to be logged in to view your booked events.</p>";
+    }
 });
+
+//how the modal is formatted
+const openEventModal = (event) => {
+    const modal = document.getElementById('eventModal');
+    const modalTitle = document.getElementById('eventModalTitle');
+    const modalDescription = document.getElementById('eventModalDescription');
+    const viewDirectionsBtn = document.getElementById('viewDirectionsBtn');
+    const cancelEventBtn = document.getElementById('cancelEventBtn');
+
+    //specific content for modal
+    modalTitle.textContent = event.event_name;
+    modalDescription.innerHTML = `
+        <strong>Category:</strong> ${event.event_category}<br>
+        <strong>Location:</strong> ${event.location}<br>
+        <strong>Start Time:</strong> ${new Date(event.start_time.seconds * 1000).toLocaleString()}<br>
+        <strong>End Time:</strong> ${new Date(event.end_time.seconds * 1000).toLocaleString()}<br>
+        <strong>Description:</strong> ${event.event_description}
+        <strong>Attendees:</strong> ${event.current_attendees_count} / ${event.max_capacity}
+    `;
+
+    //display modal
+    modal.style.display = "block";
+
+    //if user chooses to view directions, taken to google maps
+    viewDirectionsBtn.onclick = () => {
+        window.open(`https://www.google.com/maps?q=${encodeURIComponent(event.location)}`, "_blank");
+
+    };
+
+    //if user chooses to cancel the event, remove it from the bookings
+    cancelEventBtn.onclick = async () => {
+        const user = auth.currentUser;
+        if (user) {
+            //make sure the user wants to cancel
+            const confirmCancel = confirm("Are you sure you want to remove this event?");
+            
+            if (confirmCancel) {
+                try {
+                    const userRef = doc(db, 'users', user.uid);
+                    const userSnapshot = await getDoc(userRef);
+    
+                    if (userSnapshot.exists()) {
+                        const userData = userSnapshot.data();
+                        const currentBookings = Array.isArray(userData.bookings) ? userData.bookings : [];
+    
+                        //remove the event from bookings
+                        const updatedBookings = currentBookings.filter(booking => booking.event_name !== event.event_name);
+                        
+                        //update the user's bookings
+                        await updateDoc(userRef, { bookings: updatedBookings });
+    
+                        //hide modal and refresh the event list
+                        modal.style.display = "none";
+                        loadBookedEvents(); //reload events
+    
+                        alert("The event has been successfully cancelled/removed.");
+                    }
+                } catch (error) {
+                    console.error("Error canceling event:", error);
+                    alert("There was an error canceling the event.");
+                }
+            } else {
+                console.log("Event cancellation was canceled by the user.");
+            }
+        }
+    };
+    
+};
+
+//close modal when the close button is clicked
+document.getElementById('closeModal').onclick = () => {
+    document.getElementById('eventModal').style.display = "none";
+};
+
+//close modal if user clicks outside of the modal content
+window.onclick = (event) => {
+    if (event.target === document.getElementById('eventModal')) {
+        document.getElementById('eventModal').style.display = "none";
+    }
+};
+
+//load events when the page is ready
+window.onload = () => {
+    loadBookedEvents();
+};
