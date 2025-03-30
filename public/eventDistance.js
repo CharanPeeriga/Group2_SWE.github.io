@@ -27,7 +27,7 @@ getLocationBtn.addEventListener('click', async () => {
                 /*
                 console.log(`User location: ${userLatitude}, ${userLongitude}`);
                 */
-               
+
                 // After getting location, sort events by distance
                 await sortEventsByDistance(userLatitude, userLongitude);
             },
@@ -109,7 +109,7 @@ async function sortEventsByDistance(lat, lon) {
 
 // Function to fetch latitude and longitude from address using Google Geocoding API
 async function getCoordinates(address) {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${firebaseConfig.geoCodingAPIKey}`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${firebaseConfig.apiKey}`;
 
     try {
         const response = await fetch(url);
