@@ -76,7 +76,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     email: email,
                     phoneNumber: phoneNumber,
                     uid: user.uid,
-                    createdAt: new Date()
+                    createdAt: new Date(),
+                    bookings:[]
                 });
 
                 alert("User registered successfully!");
