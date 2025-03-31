@@ -1,11 +1,9 @@
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; 
 import {firebaseConfig} from "./firebase-config.js"
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const auth = getAuth(app);
 
 // HTML elements
 const getLocationBtn = document.getElementById('getLocationBtn');
@@ -109,7 +107,7 @@ async function sortEventsByDistance(lat, lon) {
 
 // Function to fetch latitude and longitude from address using Google Geocoding API
 async function getCoordinates(address) {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${firebaseConfig.apiKey}`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${firebaseConfig.googleGeocodingKey}`;
 
     try {
         const response = await fetch(url);
