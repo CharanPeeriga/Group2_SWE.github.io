@@ -1,9 +1,11 @@
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import {firebaseConfig} from "./firebase-config.js"
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; 
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
 
 // HTML elements
 const getLocationBtn = document.getElementById('getLocationBtn');
@@ -120,7 +122,7 @@ async function getCoordinates(address) {
                 longitude: location.lng
             };
         } else {
-            console.warn(`Geocoding failed for: ${address}`, data.status);
+            console.warn(`Geocoding failed for: ${address}`, data);
             return null;
         }
     } catch (error) {
