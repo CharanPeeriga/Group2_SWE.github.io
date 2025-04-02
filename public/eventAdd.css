@@ -45,3 +45,12 @@
 body.no-scroll {
   overflow: hidden;
 }
+
+
+#getLocationButtonDiv {
+  padding: 10px;
+}
+#createEventButtonDiv {
+  padding-top: 10px;
+}
+
