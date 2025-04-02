@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile | Event Pulse</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-user-circle"></i> My Profile</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><button><i class="fas fa-home"></i> Home</button></a></li>
+                <li><a href="userportal.html"><button><i class="fas fa-user"></i> User Portal</button></a></li>
+                <li><a href="eventdatabase.html"><button><i class="fas fa-calendar-week"></i> Events</button></a></li>
+                <li><a href="settings.html"><button><i class="fas fa-cog"></i> Settings</button></a></li>
+                <li><a><button id="logoutButton" class="button"><i class="fas fa-sign-out-alt"></i> Logout</button></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="profile-container">
+            <div class="profile-header">
+                <div class="profile-avatar">
+                    <i class="fas fa-user-circle fa-5x"></i>
+                </div>
+                <h2 id="userFullName">Loading...</h2>
+                <p id="userEmail">Loading...</p>
+            </div>
+
+            <div class="profile-tabs">
+                <button class="tab-button active" data-tab="personal-info">Personal Info</button>
+                <button class="tab-button" data-tab="about-me">About Me</button>
+                <button class="tab-button" data-tab="past-events">Past Events</button>
+                <button class="tab-button" data-tab="social-media">Social Media</button>
+            </div>
+
+            <div class="profile-content">
+                <!-- Personal Info Tab -->
+                <div id="personal-info" class="tab-content active">
+                    <h3>Personal Information</h3>
+                    <form id="personalInfoForm" class="profile-form">
+                        <div class="form-group">
+                            <label for="profileFirstName">First Name</label>
+                            <input type="text" id="profileFirstName" placeholder="First Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileLastName">Last Name</label>
+                            <input type="text" id="profileLastName" placeholder="Last Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileDOB">Date of Birth</label>
+                            <input type="date" id="profileDOB">
+                        </div>
+                        <div class="form-group">
+                            <label for="profilePhone">Phone Number</label>
+                            <input type="tel" id="profilePhone" placeholder="Phone Number">
+                        </div>
+                        <button type="submit" class="save-button">Save Changes</button>
+                    </form>
+                </div>
+
+                <!-- About Me Tab -->
+                <div id="about-me" class="tab-content">
+                    <h3>About Me</h3>
+                    <form id="aboutMeForm" class="profile-form">
+                        <div class="form-group">
+                            <label for="profileBio">Bio</label>
+                            <textarea id="profileBio" rows="5" placeholder="Tell us about yourself..."></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="profileInterests">Interests</label>
+                            <input type="text" id="profileInterests" placeholder="e.g., Music, Sports, Technology">
+                        </div>
+                        <button type="submit" class="save-button">Save Changes</button>
+                    </form>
+                </div>
+
+                <!-- Past Events Tab -->
+                <div id="past-events" class="tab-content">
+                    <h3>Past Events</h3>
+                    <div id="pastEventsList" class="events-grid">
+                        <!-- Past events will be loaded here -->
+                        <div class="loading-indicator">
+                            <i class="fas fa-spinner fa-spin fa-2x"></i>
+                            <p>Loading past events...</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Social Media Tab -->
+                <div id="social-media" class="tab-content">
+                    <h3>Social Media Links</h3>
+                    <form id="socialMediaForm" class="profile-form">
+                        <div class="form-group">
+                            <label for="profileTwitter"><i class="fab fa-twitter"></i> Twitter</label>
+                            <input type="url" id="profileTwitter" placeholder="https://twitter.com/yourusername">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileInstagram"><i class="fab fa-instagram"></i> Instagram</label>
+                            <input type="url" id="profileInstagram" placeholder="https://instagram.com/yourusername">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileLinkedin"><i class="fab fa-linkedin"></i> LinkedIn</label>
+                            <input type="url" id="profileLinkedin" placeholder="https://linkedin.com/in/yourusername">
+                        </div>
+                        <div class="form-group">
+                            <label for="profileFacebook"><i class="fab fa-facebook"></i> Facebook</label>
+                            <input type="url" id="profileFacebook" placeholder="https://facebook.com/yourusername">
+                        </div>
+                        <button type="submit" class="save-button">Save Changes</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; Spring 2025 Group 2 Software Engineering</p>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
+
+    <!-- Custom Scripts -->
+    <script type="module" src="./firebase-config.js"></script>
+    <script type="module" src="./profilescript.js"></script>
+    <script type="module" src="authState.js"></script>
+</body>
+</html>
