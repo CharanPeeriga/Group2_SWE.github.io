@@ -200,25 +200,28 @@ const openEventModal = (event) => {
                         
                         // Update the user's bookings
                         await updateDoc(userRef, { bookings: updatedBookings });
-
-                        const eventsRef = collection(db, "events");
-                        const q = query(eventsRef, where("event_name", "==", event.even_name));
-                        const querySnapshot = await getDocs(q);
-                        let eventId;
-                        if (!querySnapshot.empty) {
-                            eventID = querySnapshot.docs[0].id;
-                        }
-                        // Ensure the event document exists
-                        const eventRef = doc(db, 'events', q);
-                        const eventSnap = await getDoc(eventRef);
     
-                        if (eventSnap.exists()) {
-                            await updateDoc(eventRef, {
-                                current_attendees_count: increment(-1)
-                            });
-                            console.log("Event attendees decremented");
+                        // Fetch the correct event ID
+                        const eventsRef = collection(db, "events");
+                        const q = query(eventsRef, where("event_name", "==", event.event_name));  // Fix typo
+                        const querySnapshot = await getDocs(q);
+                        
+                        if (!querySnapshot.empty) {
+                            const eventID = querySnapshot.docs[0].id;  // Correctly get the document ID
+                            const eventRef = doc(db, 'events', eventID);
+                            
+                            // Ensure the event document exists before decrementing
+                            const eventSnap = await getDoc(eventRef);
+                            if (eventSnap.exists()) {
+                                await updateDoc(eventRef, {
+                                    current_attendees_count: increment(-1)
+                                });
+                                console.log("Event attendees decremented");
+                            } else {
+                                console.error("Event document does not exist in Firestore.");
+                            }
                         } else {
-                            console.error("Event document does not exist in Firestore.");
+                            console.error("Event not found in Firestore.");
                         }
     
                         // Hide modal and refresh the event list
@@ -235,7 +238,7 @@ const openEventModal = (event) => {
                 console.log("Event cancellation was canceled by the user.");
             }
         }
-    };    
+    };        
 };
 
 //close modal when the close button is clicked
