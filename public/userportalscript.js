@@ -1,7 +1,9 @@
-import { getFirestore, collection, getDocs, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; 
 import { firebaseConfig } from "./firebase-config.js";
+import { query, where } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -182,7 +184,6 @@ const openEventModal = (event) => {
     cancelEventBtn.onclick = async () => {
         const user = auth.currentUser;
         if (user) {
-            //make sure the user wants to cancel
             const confirmCancel = confirm("Are you sure you want to remove this event?");
             
             if (confirmCancel) {
@@ -194,15 +195,35 @@ const openEventModal = (event) => {
                         const userData = userSnapshot.data();
                         const currentBookings = Array.isArray(userData.bookings) ? userData.bookings : [];
     
-                        //remove the event from bookings
+                        // Remove the event from bookings
                         const updatedBookings = currentBookings.filter(booking => booking.event_name !== event.event_name);
                         
-                        //update the user's bookings
+                        // Update the user's bookings
                         await updateDoc(userRef, { bookings: updatedBookings });
+
+                        const eventsRef = collection(db, "events");
+                        const q = query(eventsRef, where("event_name", "==", event.even_name));
+                        const querySnapshot = await getDocs(q);
+                        let eventId;
+                        if (!querySnapshot.empty) {
+                            eventID = querySnapshot.docs[0].id;
+                        }
+                        // Ensure the event document exists
+                        const eventRef = doc(db, 'events', q);
+                        const eventSnap = await getDoc(eventRef);
     
-                        //hide modal and refresh the event list
+                        if (eventSnap.exists()) {
+                            await updateDoc(eventRef, {
+                                current_attendees_count: increment(-1)
+                            });
+                            console.log("Event attendees decremented");
+                        } else {
+                            console.error("Event document does not exist in Firestore.");
+                        }
+    
+                        // Hide modal and refresh the event list
                         modal.style.display = "none";
-                        loadBookedEvents(); //reload events
+                        loadBookedEvents(); // Reload events
     
                         alert("The event has been successfully cancelled/removed.");
                     }
@@ -214,8 +235,7 @@ const openEventModal = (event) => {
                 console.log("Event cancellation was canceled by the user.");
             }
         }
-    };
-    
+    };    
 };
 
 //close modal when the close button is clicked
@@ -234,3 +254,19 @@ window.onclick = (event) => {
 window.onload = () => {
     loadBookedEvents();
 };
+
+// Function to fetch event by name
+async function fetchEventByName(eventName) {
+    const eventsRef = collection(db, "events");
+    const q = query(eventsRef, where("event_name", "==", eventName));
+    
+    const querySnapshot = await getDocs(q);
+    if (!querySnapshot.empty) {
+        return querySnapshot.docs[0].uuid;  // Assuming event names are unique
+        
+    } else {
+        console.error("Event not found!");
+        return null;
+    }
+}
+

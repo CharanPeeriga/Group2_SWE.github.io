@@ -57,15 +57,10 @@ onAuthStateChanged(auth, async (user) => {
             try {
                 if (!userSnapshot.exists()) return;
 
-                console.log(eventDetails.eventname, eventDetails.event_name)
-                const eventId = fetchEventByName(eventDetails.event_name)
-
                 if (currentBookings.some(booking => booking.event_name === eventDetails.event_name)) {
                     confirmationMessage.innerHTML = `<p>You have already booked this event: ${eventDetails.event_name}.</p>`;
                     return;
                 }
-
-
 
                 // Check if event ID exists
                 if (!eventDetails.event_id) {
