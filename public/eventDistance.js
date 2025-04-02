@@ -1,7 +1,7 @@
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
-import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; 
 import {firebaseConfig} from "./firebase-config.js"
+import { getAuth } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; 
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
@@ -27,7 +27,7 @@ getLocationBtn.addEventListener('click', async () => {
                 /*
                 console.log(`User location: ${userLatitude}, ${userLongitude}`);
                 */
-               
+
                 // After getting location, sort events by distance
                 await sortEventsByDistance(userLatitude, userLongitude);
             },
@@ -109,7 +109,7 @@ async function sortEventsByDistance(lat, lon) {
 
 // Function to fetch latitude and longitude from address using Google Geocoding API
 async function getCoordinates(address) {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${firebaseConfig.geoCodingAPIKey}`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${firebaseConfig.googleGeocodingKey}`;
 
     try {
         const response = await fetch(url);
@@ -122,7 +122,7 @@ async function getCoordinates(address) {
                 longitude: location.lng
             };
         } else {
-            console.warn(`Geocoding failed for: ${address}`, data.status);
+            console.warn(`Geocoding failed for: ${address}`, data);
             return null;
         }
     } catch (error) {
