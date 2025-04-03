@@ -4,65 +4,80 @@ body
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
+    background-color: #ffffff;
     color: #333;
-    line-height: 1.6;
+    line-height: 1.0;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 header 
 {
-    background: linear-gradient(to right, #ff5757, #ed7a7a);
-    color: white;
-    padding: 1.2rem;
-    text-align: center;
+    background-color:rgb(255, 255, 255);
+    padding: 0.5rem;
+    text-align: justify;
     box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 h1 {
-    text-align: center;
+    text-align: left;
+    padding-left: 25px;
     margin-bottom: 1rem;
-    font-weight: 600;
+    margin-top: 1rem;
+    color:rgb(50, 50, 50);
+    font-weight: 600px;
+    font-size: 40px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
 }
 
 h2 {
-    color: #901111;
+    color: #a72e2e;
     margin-bottom: 1rem;
 }
 
 nav {
     display: flex;
-    justify-content: center;
-    margin-top: 1rem;
+    justify-content: right;
+    margin-top: -5rem;
+    padding-top: 9px;
+    padding-right: 25px;
 }
 
 nav ul 
 {
     list-style-type: none;
     padding: 0;
-    display: flex;
+    display: -webkit-inline-flex;
     flex-wrap: wrap;
-    justify-content: center;
+    justify-content: right;
     gap: 15px;
 }
 
 nav ul li 
 {
-    display: inline-block;
-    margin: 5px;
+    display: inline;
+    margin: 0px;
 }
 
 nav ul li button, 
 .button 
 {
     padding: 10px 20px;
-    background-color: #ed7a7a;
-    color: white;
+    background-color: #ffffff;
+    color: rgb(0, 0, 0);
     border: none;
-    border-radius: 25px;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    font-size: 20px;
+    transition: all 0.05s ease;
+    /* box-shadow: 0 2px 4px rgba(0,0,0,0.1); */
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-decoration: none;
     display: inline-block;
 }
@@ -70,17 +85,54 @@ nav ul li button,
 nav ul li button:hover, 
 .button:hover 
 {
-    background-color: #cc0f0f;
-    transform: translateY(-2px);
+    background-color: #b8b8b8;
+    transform: translateY(-0.5px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-main 
+#searchField {
+    display: flexbox;
+    justify-content: center;
+    margin-top: -5rem;
+    padding-top: 9px;
+    padding-right: 50px;
+}
+
+#searchField ul {
+    list-style-type: none;
+    padding: 10;
+    display: -webkit-inline-flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+#searchField ul li 
 {
-    padding: 2rem;
+    display: inline;
+    margin: 0px;
+}
+
+main {
+    flex: 1;
     text-align: center;
     max-width: 1200px;
     margin: 0 auto;
+    padding: 2rem;
+}
+
+footer {
+    width: 100%;
+    height: 3rem;
+    line-height: 3rem;
+    position: relative;
+    bottom: 0;
+    text-align: center;
+    padding: 15px;
+    background: linear-gradient(to right, #e13d3d, #a72e2e);
+    color: white;
+    margin-top: 30px;
+    padding-bottom: 30px;
 }
 
 /*transaction page ui*/
@@ -108,7 +160,7 @@ main
 
 #contentSection button:hover
 {
-    background-color: #cc0f0f;
+    background-color: #cacaca;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
@@ -292,14 +344,14 @@ main
     transform: translateY(-5px);
 }
 
-footer 
+/*footer 
 {
     text-align: center;
     padding: 15px;
     background: linear-gradient(to right, #ff5757, #ed7a7a);
     color: white;
     margin-top: 30px;
-}
+}*/
 
 /*search bar for Event Database*/
 #search-bar
@@ -555,6 +607,12 @@ a:hover {
     display: block;
 }
 
+#loginForm {
+    padding-right: 20px;
+    margin-right: 120px;
+    
+}
+
 .form-group {
     margin-bottom: 20px;
 }
@@ -567,7 +625,7 @@ a:hover {
 }
 
 .form-group input {
-    width: 100%;
+    width: 150%;
     padding: 12px 15px;
     border: 1px solid #ddd;
     border-radius: 5px;
@@ -576,21 +634,23 @@ a:hover {
 }
 
 .form-group input:focus {
-    border-color: #901111;
+    border-color: #a3a3a3;
     outline: none;
     box-shadow: 0 0 0 2px rgba(144, 17, 17, 0.1);
 }
 
 .form-footer {
     display: flex;
-    justify-content: space-between;
+    justify-content: left;
     align-items: center;
     margin-top: 30px;
+    gap: 10px;
 }
 
 .forgot-password {
-    font-size: 14px;
+    font-size: 15px;
     color: #666;
+    text-align: right;
 }
 
 .forgot-password:hover {
