@@ -1,9 +1,7 @@
-import { getFirestore, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
+import { getFirestore, doc, getDoc, updateDoc, increment, collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"; 
 import { firebaseConfig } from "./firebase-config.js";
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"; 
-import { collection, query, where, getDocs } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js";
-
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -12,11 +10,11 @@ const auth = getAuth(app);
 
 let isLoggedIn = false;
 
-// URL parameters and event details
+// Get event details from URL parameters
 const urlParams = new URLSearchParams(window.location.search);
 const eventDetails = JSON.parse(decodeURIComponent(urlParams.get('event')));
 
-// Event details display
+// Display event details
 const eventDetailsDiv = document.getElementById('eventDetails');
 eventDetailsDiv.innerHTML = `
     <p><strong>Event Name:</strong> ${eventDetails.event_name}</p>
@@ -31,9 +29,10 @@ eventDetailsDiv.innerHTML = `
     <p><strong>Cancellation Policy:</strong> ${eventDetails.cancellation_policy}</p>
 `;
 
-// Confirmation message and button
+// Get UI elements
 const bookNowBtn = document.getElementById('bookNowBtn');
-const confirmationMessage = document.getElementById('confirmationMessage');
+const paymentSection = document.getElementById("paymentSection");
+const priceAmountSpan = document.getElementById("priceAmount");
 
 // Check if the user is logged in
 onAuthStateChanged(auth, async (user) => {
@@ -46,36 +45,109 @@ onAuthStateChanged(auth, async (user) => {
         const userData = userSnapshot.exists() ? userSnapshot.data() : {};
         const currentBookings = Array.isArray(userData.bookings) ? userData.bookings : [];
 
+        // Prevent duplicate bookings
         if (currentBookings.some(booking => booking.event_name === eventDetails.event_name)) {
             bookNowBtn.style.display = "none";
-            confirmationMessage.textContent = "You have already booked this event!";
+            Swal.fire({
+              title: "Already Booked",
+              text: "You have already booked this event!",
+              icon: "info",
+              confirmButtonText: "OK"
+            });
             return;
         }
 
-        // Attach event listener to button
+        // Attach event listener to the Book Now button
         bookNowBtn.onclick = async () => {
             try {
-                if (!userSnapshot.exists()) return;
-
-                if (currentBookings.some(booking => booking.event_name === eventDetails.event_name)) {
-                    confirmationMessage.innerHTML = `<p>You have already booked this event: ${eventDetails.event_name}.</p>`;
-                    return;
-                }
-
-                // Check if event ID exists
+                // Ensure event_id exists
                 if (!eventDetails.event_id) {
                     console.error("Error: event_id is undefined");
-                    confirmationMessage.innerHTML = `<p>Error: Unable to book event.</p>`;
+                    Swal.fire("Error", "Unable to book event.", "error");
                     return;
                 }
 
-                // Ensure event is not over capacity
+                // Check event capacity
                 if (eventDetails.current_attendees_count >= eventDetails.max_capacity) {
-                    confirmationMessage.innerHTML = `<p>Sorry, this event is fully booked.</p>`;
+                    Swal.fire("Fully Booked", "Sorry, this event is fully booked.", "error");
                     return;
                 }
 
-                // Create event booking object
+                // For events that require payment (price > 0)
+                if (eventDetails.price && eventDetails.price > 0) {
+                    // Set the payment amount in the form
+                    priceAmountSpan.textContent = eventDetails.price;
+                    // Hide the Book Now button and show the payment section
+                    bookNowBtn.style.display = "none";
+                    paymentSection.classList.remove("hidden");
+                    Swal.fire({
+                        title: "Payment Required",
+                        text: `This event requires a payment of $${eventDetails.price}. Please enter your payment information below.`,
+                        icon: "info",
+                        confirmButtonText: "OK"
+                    });
+                } else {
+                    // For free events, process booking immediately
+                    const eventBooking = {
+                        event_name: eventDetails.event_name,
+                        event_category: eventDetails.event_category,
+                        location: eventDetails.location,
+                        start_time: eventDetails.start_time,
+                        end_time: eventDetails.end_time,
+                        event_description: eventDetails.event_description,
+                        price: eventDetails.price || 0,
+                        current_attendees_count: eventDetails.current_attendees_count + 1, // New count
+                        max_capacity: eventDetails.max_capacity,
+                        privacy_type: eventDetails.privacy_type,
+                        cancellation_policy: eventDetails.cancellation_policy
+                    };
+
+                    // Update user's bookings in Firestore
+                    await updateDoc(userRef, {
+                        bookings: [...currentBookings, eventBooking]
+                    });
+
+                    // Increase attendee count using increment()
+                    const eventRef = doc(db, 'events', eventDetails.event_id);
+                    await updateDoc(eventRef, {
+                        current_attendees_count: increment(1)
+                    });
+
+                    // Update UI attendee count
+                    document.getElementById("attendeeCount").textContent = eventDetails.current_attendees_count + 1;
+                    bookNowBtn.style.display = "none";
+
+                    Swal.fire({
+                        title: "Event Booked",
+                        text: `Congratulations! You have successfully booked the event: ${eventDetails.event_name}.`,
+                        icon: "success",
+                        confirmButtonText: "OK"
+                    });
+                }
+            } catch (error) {
+                console.error("Error booking event:", error);
+                Swal.fire("Error", "There was an error booking the event. Please try again.", "error");
+            }
+        };
+
+        // Payment form submission handler
+        const paymentForm = document.getElementById("paymentForm");
+        paymentForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            // Simulate payment processing
+            Swal.fire({
+                title: "Processing Payment",
+                text: "Please wait...",
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+            try {
+                // Simulate a delay for payment processing
+                await new Promise(resolve => setTimeout(resolve, 2000));
+
+                // Create the event booking object
                 const eventBooking = {
                     event_name: eventDetails.event_name,
                     event_category: eventDetails.event_category,
@@ -84,18 +156,18 @@ onAuthStateChanged(auth, async (user) => {
                     end_time: eventDetails.end_time,
                     event_description: eventDetails.event_description,
                     price: eventDetails.price || 0,
-                    current_attendees_count: eventDetails.current_attendees_count + 1, // Increase count
+                    current_attendees_count: eventDetails.current_attendees_count + 1,
                     max_capacity: eventDetails.max_capacity,
                     privacy_type: eventDetails.privacy_type,
                     cancellation_policy: eventDetails.cancellation_policy
                 };
 
-                // Update user's booking list
+                // Update user's bookings
                 await updateDoc(userRef, {
                     bookings: [...currentBookings, eventBooking]
                 });
 
-                // Increase attendee count in Firestore using increment()
+                // Increase attendee count in Firestore
                 const eventRef = doc(db, 'events', eventDetails.event_id);
                 await updateDoc(eventRef, {
                     current_attendees_count: increment(1)
@@ -104,15 +176,21 @@ onAuthStateChanged(auth, async (user) => {
                 // Update UI attendee count
                 document.getElementById("attendeeCount").textContent = eventDetails.current_attendees_count + 1;
 
-                bookNowBtn.style.display = "none";
-                confirmationMessage.innerHTML = `<p>Congratulations! You have successfully booked the event: ${eventDetails.event_name}.</p>`;
+                Swal.fire({
+                    title: "Payment Successful",
+                    text: "Your payment was successful and the event is booked.",
+                    icon: "success",
+                    confirmButtonText: "OK"
+                });
+
+                // Hide the payment section after successful booking
+                paymentSection.classList.add("hidden");
 
             } catch (error) {
-                console.error("Error adding event to bookings:", error);
-                confirmationMessage.innerHTML = `<p>Error booking the event. Please try again.</p>`;
+                console.error("Payment error:", error);
+                Swal.fire("Payment Failed", "There was an error processing your payment.", "error");
             }
-        };
-
+        });
     } else {
         console.log("No user is logged in.");
         bookNowBtn.textContent = "Login to book";
@@ -122,14 +200,14 @@ onAuthStateChanged(auth, async (user) => {
     }
 });
 
-// Function to fetch event by name
+// If event_id is missing, try fetching it by event name
 async function fetchEventByName(eventName) {
     const eventsRef = collection(db, "events");
     const q = query(eventsRef, where("event_name", "==", eventName));
     
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
-        const eventDoc = querySnapshot.docs[0];  // Assuming event names are unique
+        const eventDoc = querySnapshot.docs[0];
         return { event_id: eventDoc.id, ...eventDoc.data() };
     } else {
         console.error("Event not found!");
@@ -137,7 +215,6 @@ async function fetchEventByName(eventName) {
     }
 }
 
-// Fetch event if event_id is missing
 if (!eventDetails.event_id) {
     fetchEventByName(eventDetails.event_name).then(fetchedEvent => {
         if (fetchedEvent) {

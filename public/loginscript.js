@@ -34,11 +34,20 @@ document.getElementById("loginForm").addEventListener("submit", async (event) =>
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
 
-        console.log("User signed in:", user);
-        alert(`Welcome back, ${user.email}!`);
+        Swal.fire({
+            title: 'Welcome back!',
+            text: `Welcome back, ${user.email}!`,
+            confirmButtonColor: "#a72e2e",
+            icon: 'success',
+            confirmButtonText: 'OK',
+            timer: 10000,
+            timerProgressBar: true
+          }).then((result) => {
+            window.location.href = "userportal.html";
+          });
 
-        //redirect to eventdatabase.html
-        window.location.href = "userportal.html";
+        // redirect to eventdatabase.html
+        // window.location.href = "userportal.html";
     } catch (error) {
         console.log("Error signing in:", error);
 

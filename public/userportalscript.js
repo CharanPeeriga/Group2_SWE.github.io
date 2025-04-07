@@ -184,7 +184,16 @@ const openEventModal = (event) => {
     cancelEventBtn.onclick = async () => {
         const user = auth.currentUser;
         if (user) {
-            const confirmCancel = confirm("Are you sure you want to remove this event?");
+            const result = await Swal.fire({
+                title: 'Are you sure you want to remove this event?',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes, remove it!',
+                cancelButtonText: 'No, cancel',
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33'
+            });
+            const confirmCancel = result.isConfirmed;
             
             if (confirmCancel) {
                 try {
@@ -228,7 +237,17 @@ const openEventModal = (event) => {
                         modal.style.display = "none";
                         loadBookedEvents(); // Reload events
     
-                        alert("The event has been successfully cancelled/removed.");
+                        //alert("The event has been successfully cancelled/removed.");
+
+                        Swal.fire({
+                            title: 'Cancel Event',
+                            text: `The event has been successfully cancelled/removed`,
+                            confirmButtonColor: "#a72e2e",
+                            icon: 'success',
+                            confirmButtonText: 'OK',
+                            timer: 10000,
+                            timerProgressBar: true
+                          });
                     }
                 } catch (error) {
                     console.error("Error canceling event:", error);
