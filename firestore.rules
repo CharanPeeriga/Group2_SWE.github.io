@@ -11,7 +11,7 @@ service cloud.firestore {
     // Allow everyone to read the "events" collection, but restrict writing (optional)
     match /events/{eventId} {
       allow read: if true;  // Allow all users to read events
-      allow write: if false;  // Optionally, allow no writes from users
+      allow write: if true;  // Optionally, allow no writes from users
       allow update: if request.auth != null; //add ability for updating event content
     }
 
