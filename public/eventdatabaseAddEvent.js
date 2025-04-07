@@ -48,10 +48,9 @@ onAuthStateChanged(auth, (user) => {
                 max_capacity: parseInt(document.getElementById("maxCapacity").value),
                 privacy_type: document.getElementById("privacyType").value,
                 cancellation_policy: document.getElementById("cancellationPolicy").value,
-                current_attendees_count: 0
+                current_attendees_count: 0,
+                created_at: new Date()  // Timestamp when event is created
             };
-
-            console.log("New Event:", newEvent);
 
             // Make this more strict in the future
             if (!newEvent.event_name || !newEvent.event_category || !newEvent.location || !newEvent.start_time || !newEvent.end_time) {
@@ -59,25 +58,11 @@ onAuthStateChanged(auth, (user) => {
                 return;
             }
 
-            // Create event object
-            const Event = {
-                event_name: newEvent.event_name,
-                event_category: newEvent.event_category,
-                event_description: newEvent.event_description,
-                location: newEvent.location,
-                start_time: new Date(newEvent.start_time),
-                end_time: new Date(newEvent.end_time),
-                max_capacity: newEvent.max_capacity,
-                price: newEvent.price,
-                privacy_type: newEvent.privacy_type,
-                cancellation_policy: newEvent.cancellation_policy,
-                current_attendees_count: 0,  // Default value
-                created_at: new Date()  // Timestamp when event is created
-            };
+            console.log("New Event:", newEvent);           
 
             try {
                 // Add to Firestore
-                const docRef = await addDoc(collection(db, "events"), Event);
+                const docRef = await addDoc(collection(db, "events"), newEvent);
                 console.log("Event added with ID:", docRef.id);
         
                 alert("Event added successfully!");
@@ -86,7 +71,9 @@ onAuthStateChanged(auth, (user) => {
         
             } catch (error) {
                 console.error("Error adding event:", error);
+                console.log(error);
                 alert("Failed to add event. Please try again.");
+                return;
             }
             
             // Close the panel
