@@ -109,7 +109,7 @@ async function sortEventsByDistance(lat, lon) {
 
 // Function to fetch latitude and longitude from address using Google Geocoding API
 async function getCoordinates(address) {
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${firebaseConfig.googleGeocodingKey}`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${firebaseConfig.geoCodingAPIKey}`;
 
     try {
         const response = await fetch(url);

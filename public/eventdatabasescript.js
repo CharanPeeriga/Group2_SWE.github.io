@@ -30,6 +30,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const eventSearch = document.getElementById('eventSearch');
     let events = [];
 
+    const urlParams = new URLSearchParams(window.location.search);
+    const prefillSearch = urlParams.get('search') || "";
+    if (prefillSearch) {
+        eventSearch.value = prefillSearch;
+    }
+
     // Fetch events from Firebase
     try {
         console.log("Fetching events...");
@@ -64,6 +70,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     eventSearch.addEventListener('input', () => {
         filterEvents(categorySelect.value, eventSearch.value, events);
     });
+
+    // If a prefill search term exists, filter the events immediately
+    if (prefillSearch) {
+        filterEvents(categorySelect.value, prefillSearch, events);
+    }
 
     //start by showing all events
     function filterEvents(category, searchTerm, events) {

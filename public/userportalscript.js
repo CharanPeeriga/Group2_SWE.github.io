@@ -284,7 +284,7 @@ async function fetchEventByName(eventName) {
     
     const querySnapshot = await getDocs(q);
     if (!querySnapshot.empty) {
-        return querySnapshot.docs[0].uuid;  // Assuming event names are unique
+        return querySnapshot.docs[0].uuid; 
         
     } else {
         console.error("Event not found!");

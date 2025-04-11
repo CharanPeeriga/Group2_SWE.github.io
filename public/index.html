@@ -19,8 +19,8 @@
             </ul>
         </nav>
         <div id="searchField">
-            <label for="searchField"><i class="fas fa-search"></i> </label>
-            <input type="text" id="searchField" placeholder="Search for an event..." />
+            <label for="homeSearch" id="searchIcon"><i class="fas fa-search"></i> </label>
+            <input type="text" id="homeSearch" placeholder="Search for an event..." />
         </div>
     </header>
 
@@ -45,6 +45,30 @@
     
     <script type="module" src="app.js"></script>
     <script type="module" src="authState.js"></script>
+
+
+  <script>
+    const homeSearchInput = document.getElementById("homeSearch");
+    const searchIcon = document.getElementById("searchIcon");
+
+    function performSearch() {
+      const query = homeSearchInput.value.trim();
+      window.location.href = `eventdatabase.html?search=${encodeURIComponent(
+        query
+      )}`;
+    }
+
+    homeSearchInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        performSearch();
+      }
+    });
+
+    searchIcon.addEventListener("click", () => {
+      performSearch();
+    });
+  </script>
 
 </body>
 </html>
