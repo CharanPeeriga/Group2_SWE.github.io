@@ -80,9 +80,19 @@ document.addEventListener("DOMContentLoaded", function() {
                     bookings:[]
                 });
 
-                alert("User registered successfully!");
-                registrationForm.reset();
-                window.location.href = "loginregister.html";  // Redirect to login page
+                Swal.fire({
+                    title: 'Registered Successfully!',
+                    text: `Registered Sucessfully!, ${user.email}!`,
+                    confirmButtonColor: "#a72e2e",
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    timer: 10000,
+                    timerProgressBar: true
+                  }).then((result) => {
+                    registrationForm.reset();
+                    window.location.href = "loginregister.html";  // Redirect to login page
+                  });
+                
             } else {
                 throw new Error("User authentication failed.");
             }

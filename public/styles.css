@@ -613,13 +613,16 @@ a:hover {
 }
 
 #loginForm {
-    padding-right: 20px;
-    margin-right: 120px;
-    
+    margin-right: -15px;
+}
+
+#registrationForm {
+    margin-right: -15px;
 }
 
 .form-group {
     margin-bottom: 20px;
+    margin-right: 150px;
 }
 
 .form-group label {
@@ -655,7 +658,7 @@ a:hover {
 .forgot-password {
     font-size: 15px;
     color: #666;
-    text-align: right;
+    text-align: center;
 }
 
 .forgot-password:hover {
