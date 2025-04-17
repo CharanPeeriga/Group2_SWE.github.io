@@ -151,6 +151,10 @@ footer {
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
 
+#contentSection h3 {
+    color: #a72e2e;
+}
+
 #contentSection button
 {
     padding: 10px 20px;
@@ -489,6 +493,34 @@ label {
         margin: 20% auto;
     }
 }
+
+@media screen and (max-width: 768px) {
+    .settings-content {
+        padding: 1rem;
+    }
+
+    .save-button {
+        width: 100%;
+    }
+
+    .form-group input, .form-select {
+        width: 100%;
+    }
+
+    .toggle-group {
+        flex-direction: column;
+    }
+}
+.verify-btn {
+    margin-left: 10px;
+    background: #007bff;
+    color: #fff;
+    border: none;
+    padding: 4px 10px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
 
 /* Loading indicators and messages */
 .loading-indicator {

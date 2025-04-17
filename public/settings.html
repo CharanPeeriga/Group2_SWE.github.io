@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Event Pulse</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <header>
+        <h1><i class="fas fa-cog"></i> Settings</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html"><button><i class="fas fa-home"></i> Home</button></a></li>
+                <li><a href="userportal.html"><button><i class="fas fa-user"></i> User Portal</button></a></li>
+                <li><a href="profile.html"><button><i class="fas fa-user-circle"></i> Profile</button></a></li>
+                <li><a href="eventdatabase.html"><button><i class="fas fa-calendar-week"></i> Events</button></a></li>
+                <li><a><button id="logoutButton" class="button"><i class="fas fa-sign-out-alt"></i> Logout</button></a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="settings-container">
+            <div class="settings-header">
+                <h2>Notification Settings</h2>
+                <p>Manage how and when you receive notifications from Event Pulse</p>
+            </div>
+
+            <div class="settings-content">
+                <form id="notificationSettingsForm">
+                    <div class="settings-section">
+                        <h3><i class="fas fa-envelope"></i> Email Preferences</h3>
+                        <div class="form-group">
+                            <label for="notificationEmail">Notification Email</label>
+                            <input type="email" id="notificationEmail" placeholder="Your preferred email for notifications">
+                            <p id="emailStatus" style="margin-top: 5px;"></p>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-bell"></i> Notification Types</h3>
+                        <div class="toggle-group">
+                            <div class="toggle-item">
+                                <label for="eventReminders">Event Reminders</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="eventReminders" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </div>
+                                <p class="setting-description">Receive reminders about events you've registered for</p>
+                            </div>
+                            
+                            <div class="toggle-item">
+                                <label for="newEventNotifications">New Event Notifications</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="newEventNotifications" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </div>
+                                <p class="setting-description">Get notified when new events are added that match your interests</p>
+                            </div>
+
+                            <div class="toggle-item">
+                                <label for="eventChanges">Event Changes</label>
+                                <div class="toggle-switch">
+                                    <input type="checkbox" id="eventChanges" class="toggle-input">
+                                    <span class="toggle-slider"></span>
+                                </div>
+                                <p class="setting-description">Receive updates if details change for events you're attending</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-clock"></i> Notification Timing</h3>
+                        <div class="form-group">
+                            <label for="reminderTime">When to send event reminders</label>
+                            <select id="reminderTime" class="form-select">
+                                <option value="1hour">1 hour before</option>
+                                <option value="3hours">3 hours before</option>
+                                <option value="6hours">6 hours before</option>
+                                <option value="12hours">12 hours before</option>
+                                <option value="1day">1 day before</option>
+                                <option value="2days">2 days before</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="settings-section">
+                        <h3><i class="fas fa-shield-alt"></i> Privacy Settings</h3>
+                        <div class="toggle-item">
+                            <label for="profileVisibility">Public Profile</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="profileVisibility" class="toggle-input">
+                                <span class="toggle-slider"></span>
+                            </div>
+                            <p class="setting-description">Allow others to see your profile and past events</p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="save-button">Save Settings</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; Spring 2025 Group 2 Software Engineering</p>
+    </footer>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
+
+    <!-- Custom Scripts -->
+    <script type="module" src="./firebase-config.js"></script>
+    <script type="module" src="./settings.js"></script>
+    <script type="module" src="authState.js"></script>
+</body>
+</html>
