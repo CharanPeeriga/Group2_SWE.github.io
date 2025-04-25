@@ -1,3 +1,4 @@
+<!-- Transactionpage.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,17 +26,39 @@
       <h2>Event Details</h2>
       <div id="eventDetails"></div>
       <button id="bookNowBtn">Book Now</button>
+
       <!-- Hidden payment section (only displayed if the event requires payment) -->
       <div id="paymentSection" class="hidden">
         <h3>Payment Information</h3>
         <form id="paymentForm">
           <label for="cardNumber">Card Number:</label>
-          <input type="text" id="cardNumber" required><br>
+          <input
+            type="text"
+            id="cardNumber"
+            placeholder="1234 5678 1234 5678"
+            maxlength="19"
+            required
+          ><br>
+
           <label for="expiry">Expiry Date (MM/YY):</label>
-          <input type="text" id="expiry" required><br>
+          <input
+            type="text"
+            id="expiry"
+            placeholder="01/26"
+            maxlength="5"
+            required
+          ><br>
+
           <label for="cvv">CVV:</label>
-          <input type="text" id="cvv" required><br>
-          <button type="submit">Pay $<span id="priceAmount"></span></button>
+          <input
+            type="text"
+            id="cvv"
+            placeholder="123"
+            maxlength="3"
+            required
+          ><br>
+
+          <button type="submit" id="payBtn">Pay $<span id="priceAmount"></span></button>
         </form>
       </div>
     </section>
