@@ -13,7 +13,7 @@ Front-end:
 - Daisy Holt
 - Lauren Warren
 - Christy Lam
-## Current Sprint: 4 (Status: In Progress)
+## Current Sprint: 4 (Status: Done)
 Part | Due Date
 --------|-----------
 Document | April 9th, 2025
